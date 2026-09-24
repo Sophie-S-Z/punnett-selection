@@ -13,8 +13,8 @@ Run `npm run build`, `npm run lint`, and `npx tsc --noEmit` before each push.
 
 ## Milestones
 
-W1: Public Next.js landing page. Deployment verification pending.
-W2: Supabase specimens list. Starts after W1 acceptance.
+W1: Public Next.js landing page.
+W2: Public `/specimens` list from `lab_specimens`.
 
 Use `main` for production.
 Keep environment values in `.env.local` and Vercel settings.

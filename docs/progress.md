@@ -1,36 +1,34 @@
 # Milestone
 
-W1 / Assignment 1: implementation complete; deployment pending.
+W2: public specimen list from `lab_specimens`.
 
 # What changed
 
-Created and cloned the private `Sophie-S-Z/punnett-selection` repository.
-Created a Next.js 16.3.6 App Router application.
-Added the Punnett landing page, shared LabHeader, design tokens, and required fonts.
-Pinned exact dependency versions.
-Added environment examples and setup guides.
-Removed unused starter artwork.
+Added a server Supabase client and a dynamic `/specimens` page.
+The page selects `id, code, label, notes` and renders each row as a `SpecimenCard`.
+An error from the query is shown on the page.
+An empty result shows "No specimens in this dish yet."
+Added tests for the error, empty, and list states.
 
 # How I verified it
 
-Production build, ESLint, and TypeScript checks passed after final cleanup.
-All three required checks passed before push.
-The dependency audit reported zero vulnerabilities.
-Browser verification is blocked by browser navigation timeouts.
-Vercel deployment is blocked by an invalid CLI token and an unavailable connector deploy operation.
+`npm test`, `npm run lint`, `npx tsc --noEmit`, and `npm run build` passed.
+The production server rendered `/specimens` from the live query.
+The live query returned zero rows, so the page shows the empty state.
+The home page still loads.
 
 # VERIFY findings (schema, API)
 
-No Supabase project is configured.
-No schema or caption API shapes have been assumed.
+`public.lab_specimens` accepts the four-column select and returns HTTP 200 with `[]`.
+No row payload was available to confirm column types.
 
 # HUMAN tasks needed
 
-Restore CLI access with `vercel login`.
-Disable deployment protection after project creation, as required by R4.
-Follow `docs/supabase-setup.md` to prepare Assignment 2.
-Submit the verified deployment URLs personally.
+Add 5 to 8 rows to `lab_specimens`, or confirm anonymous read access if rows already exist.
+Add the three environment variables in the Vercel project.
+Turn off Vercel deployment protection (R4).
+There is no negotiator agent in this repository.
 
 # Open questions
 
-Whether the instructor supplies a staging project or expects a personal project for W2.
+Whether the zero-row response is an empty table or RLS filtering.

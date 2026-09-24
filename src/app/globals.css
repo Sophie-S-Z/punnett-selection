@@ -39,12 +39,24 @@ h1 { font-size: clamp(44px, 6.4vw, 88px); font-weight: 400; line-height: 1.04; l
 .punnett-grid { width: 100%; aspect-ratio: 1; display: grid; grid-template-columns: 1fr 1fr; transform: rotate(-12deg); }
 .punnett-grid span { display: grid; place-items: center; font-family: var(--font-jetbrains), monospace; color: var(--glow); font-size: clamp(25px, 4vw, 48px); border: 1px solid var(--border); }
 .punnett-grid span:nth-child(2), .punnett-grid span:nth-child(3) { color: var(--glow-soft); }
+.lab-header-tools { display: flex; align-items: center; gap: 24px; }
+.lab-nav { display: flex; gap: 20px; font-family: var(--font-jetbrains), monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.lab-nav a { color: var(--glow); text-decoration: none; }
+.specimen-page { flex: 1; padding: 48px 0 80px; }
+.specimen-page h1 { margin-top: 12px; }
+.specimen-list { list-style: none; margin: 36px 0 0; padding: 0; display: grid; gap: 16px; }
+.specimen-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
+.specimen-card h2 { margin: 8px 0 0; font-size: 22px; font-weight: 500; letter-spacing: 0; }
+.specimen-notes { margin: 10px 0 0; color: var(--glow-soft); line-height: 1.6; }
+.specimen-error { color: var(--danger); max-width: 560px; line-height: 1.6; }
 .lab-footer { display: flex; justify-content: space-between; gap: 16px; padding: 25px 0; border-top: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-jetbrains), monospace; font-size: 11px; }
 .skip-link { position: absolute; top: -100px; padding: 12px; background: var(--surface); z-index: 10; }
 .skip-link:focus { top: 8px; }
 @media (max-width: 700px) {
   .lab-header { min-height: 88px; }
-  .lab-header > .eyebrow { max-width: 105px; text-align: right; font-size: 9px; }
+  .lab-header-tools { flex-direction: column; align-items: flex-end; gap: 8px; }
+  .lab-header-tools .eyebrow { max-width: 105px; text-align: right; font-size: 9px; }
+  .lab-nav { font-size: 11px; }
   .welcome { grid-template-columns: 1fr; padding: 55px 0; gap: 40px; }
   .dish-ring { max-width: 300px; padding: 14%; }
   .intro { font-size: 16px; }
