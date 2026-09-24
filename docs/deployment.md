@@ -23,6 +23,6 @@ Reference: https://vercel.com/docs/deployment-protection
 | Assignment | Commit | Immutable deployment URL | Status |
 | --- | --- | --- | --- |
 | 1 | Pending push | Pending deployment | Not ready to submit |
-| 2 | Pending this push | Pending this deploy | Live query returns zero rows |
+| 2 | 8826249 | https://punnett-selection-h7rv9adje-sophie-zhangs-projects.vercel.app | Deployed; live query returns zero rows |
 
 The owner will submit the final URLs in the course portal.
