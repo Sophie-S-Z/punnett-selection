@@ -1,0 +1,18 @@
+:root,
+[data-theme="night"] {
+  --bg: #070D12;
+  --surface: #0E1719;
+  --surface-active: #0C2420;
+  --border: #1E3A36;
+  --glow: #5DCAA5;          /* primary, bioluminescent teal */
+  --glow-soft: #9FE1CB;
+  --glow-deep: #1D9E75;
+  --text: #D8F3EA;
+  --text-muted: #6F9C90;
+  --ink: #FAC775;           /* notebook ink notes */
+  --mutant: #AFA9EC;        /* secondary accent, clones and mutations */
+  --mutant-deep: #534AB7;
+  --danger: #F09595;
+  --glow-shadow: 0 0 0 1px rgba(93,202,165,.35), 0 0 24px rgba(93,202,165,.18);
+  --radius: 10px;
+}
