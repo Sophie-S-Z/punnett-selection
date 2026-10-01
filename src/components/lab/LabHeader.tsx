@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { currentUser } from "@/lib/supabase/user";
+import { AuthControls } from "./AuthControls";
 
-export function LabHeader() {
+export async function LabHeader() {
+  const user = await currentUser();
   return (
     <header className="lab-header">
       <a className="skip-link" href="#main">
@@ -18,8 +21,10 @@ export function LabHeader() {
       <div className="lab-header-tools">
         <nav className="lab-nav" aria-label="Lab sections">
           <Link href="/specimens">Specimens</Link>
+          {user ? <Link href="/profile">Profile</Link> : null}
+          {user ? <Link href="/lab/notebook">Notebook</Link> : null}
         </nav>
-        <span className="eyebrow">Comedy genetics lab</span>
+        <AuthControls signedIn={Boolean(user)} />
       </div>
     </header>
   );
