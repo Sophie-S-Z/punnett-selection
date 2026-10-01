@@ -1,7 +1,8 @@
 ## Milestone
 
 W3: Google authentication, profile onboarding, photo upload, and a protected route.
-Implementation and local verification passed. Production verification is the final delivery step.
+Application delivered and verified on the commit-specific production deployment.
+The required video review remains unverified because the caption endpoint returned no content.
 
 ## What changed
 
@@ -36,6 +37,15 @@ The owner tested real Google login locally.
 The owner confirmed that saved names and an uploaded photo persist after reload.
 Build, lint, and TypeScript checks passed during implementation.
 They are run again before the final source push.
+The final build, lint, and TypeScript checks passed before the source push.
+All eight browser tests also passed against the commit-specific Vercel URL in fresh browser contexts.
+The deployed anonymous authorization checks passed.
+The owner confirmed the complete deployed login, profile/photo persistence, notebook, and logout flow.
+GitHub's successful Vercel status maps the source commit to deployment `dpl_7RNkZS3RYyKidhbS3dLmNqtogusP`.
+The exact deployment is publicly reachable with HTTP 200.
+
+Source commit: `a5d671a550edfc58ba83b70f5bc32c639667154e`.
+Submission URL: https://punnett-selection-c2yydgpbd-sophie-zhangs-projects.vercel.app
 
 ## VERIFY findings (schema, API)
 
@@ -52,14 +62,14 @@ Current implementation references:
 
 ## HUMAN tasks needed
 
-Add the final commit-specific deployment's exact `/auth/callback` URL to Supabase Redirect URLs.
-Keep Vercel Deployment Protection off, as required by AGENTS.md R4.
-Confirm real login, profile persistence, and logout on the deployed app.
 Submit the verified commit-specific URL in the course portal.
+Keep Vercel Deployment Protection off, as required by AGENTS.md R4.
+The owner already added the exact deployment callback and confirmed deployed behavior.
 
 ## Open questions
 
 The required YouTube page did not expose a transcript to the web tool.
+The official English caption track was found, but its endpoint returned an empty response.
 The video has not been verified as viewed.
 Caption duels and vote history remain the later W4 milestone.
 The current assignment's gate opens the notebook.
