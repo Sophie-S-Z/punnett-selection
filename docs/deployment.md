@@ -25,7 +25,7 @@ Reference: https://vercel.com/docs/deployment-protection
 | 1 | Pending push | Pending deployment | Not ready to submit |
 | 2 | 1eef337 | https://punnett-selection-o6syifci9-sophie-zhangs-projects.vercel.app | Deployed; six rows visible |
 | 3 | a5d671a550edfc58ba83b70f5bc32c639667154e | https://punnett-selection-c2yydgpbd-sophie-zhangs-projects.vercel.app | Ready; public incognito tests passed; owner confirmed login, profile/photo persistence, notebook, and logout |
-| 3 extension | 85c75f4d5f4dc98814ab8af0f0f93465b3746790 | https://punnett-selection-r7l4jjwzh-sophie-zhangs-projects.vercel.app | Ready; public and security tests passed; deployed sign-in confirmation pending |
+| 3 extension | 85c75f4d5f4dc98814ab8af0f0f93465b3746790 | https://punnett-selection-r7l4jjwzh-sophie-zhangs-projects.vercel.app | Ready to submit; public and security tests passed; owner confirmed the deployed signed-in flow |
 
 The owner will submit the final URLs in the course portal.
 
@@ -54,4 +54,6 @@ The deployed security tests rejected anonymous protected-page submissions, profi
 The owner confirmed the full local signed-in flow.
 The agent verified local add, copy, edit, reload, and confirmed removal through the actual UI.
 All 11 shared specimens were unchanged after those tests.
-The new immutable URL's exact `/auth/callback` allowlist entry and signed-in deployed confirmation are pending.
+The owner saved the new immutable URL's exact `/auth/callback` allowlist entry in Supabase.
+The owner confirmed the deployed signed-in test passed.
+This source deployment is the verified submission URL for the extension.

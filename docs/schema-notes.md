@@ -66,4 +66,5 @@ Direct table privileges are revoked from API roles.
 Live anonymous table and RPC requests returned HTTP 401 / 42501.
 Actual signed-in add, copy, edit, reload, and delete tests passed.
 All 11 shared rows remained identical to the baseline after those tests.
+The owner saved the immutable deployment's exact callback URL and confirmed the deployed signed-in test passed.
 No policies were created or modified.

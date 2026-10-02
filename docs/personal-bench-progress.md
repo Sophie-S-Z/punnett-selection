@@ -5,7 +5,8 @@ Database setup and the signed-in local flow passed.
 Source commit `85c75f4d5f4dc98814ab8af0f0f93465b3746790` is pushed.
 The update is deployed at https://punnett-selection-r7l4jjwzh-sophie-zhangs-projects.vercel.app.
 Public and security deployment checks passed.
-Signed-in deployed verification is pending.
+The owner confirmed the signed-in deployed flow passed.
+This extension is complete.
 
 ## What changed
 
@@ -50,7 +51,8 @@ Deployment `dpl_HKSs2jcmSBNKrPnqfHsEfEK1cGN1` is Ready.
 GitHub reports a successful Vercel status for the source commit.
 All eight browser tests passed against the immutable deployment in fresh contexts.
 Deployed visitor and database security checks passed.
-Pending: signed-in deployed verification after the exact callback URL is allowlisted.
+The owner saved the new immutable deployment's exact `/auth/callback` URL in Supabase.
+The owner confirmed the deployed signed-in test passed.
 
 ## VERIFY findings (schema, API)
 
@@ -68,11 +70,10 @@ The owner approved the add-specimen empty state for the personal table only.
 
 ## HUMAN tasks needed
 
-1. At deployment, keep Vercel deployment protection off.
-2. Add the new immutable deployment's exact `/auth/callback` URL in Supabase.
-3. Confirm the deployed signed-in flow.
+No implementation or configuration tasks remain.
+Keep Vercel deployment protection off.
+Use the recorded immutable URL if updating the course submission.
 
 ## Open questions
 
-No product or schema questions remain.
-The remaining production checks must pass before delivery is marked complete.
+None for this extension.
