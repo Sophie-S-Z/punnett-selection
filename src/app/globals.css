@@ -61,7 +61,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--glow); outl
 .brand-subtitle { display: block; margin-top: 6px; color: var(--text-muted); font-family: var(--font-jetbrains), monospace; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
 .eyebrow { font-family: var(--font-jetbrains), monospace; font-size: 11px; line-height: 1.7; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
 .welcome { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 48px; flex: 1; padding: 90px 0; }
-h1 { font-size: clamp(44px, 6.4vw, 88px); font-weight: 400; line-height: 1.04; letter-spacing: -.055em; margin: 26px 0; }
+h1 { font-size: clamp(44px, 6.4vw, 88px); font-weight: 400; line-height: 1.04; letter-spacing: -.035em; margin: 26px 0; text-wrap: balance; }
 .intro { max-width: 460px; color: var(--glow-soft); font-size: 18px; line-height: 1.7; }
 .ink-note { color: var(--ink); font-family: var(--font-caveat), cursive; font-size: 28px; margin-top: 34px; }
 .dish-study { text-align: center; }
@@ -94,4 +94,65 @@ h1 { font-size: clamp(44px, 6.4vw, 88px); font-weight: 400; line-height: 1.04; l
   .dish-ring { max-width: 300px; padding: 14%; }
   .intro { font-size: 16px; }
   .ink-note { font-size: 25px; }
+}
+
+/* Personal workstation: identity in the header, collection beneath one tool rail. */
+.lab-header-tools { gap: 18px; }
+.lab-nav { letter-spacing: .03em; }
+.lab-nav a:hover { color: var(--text); }
+.profile-badge { display: flex; align-items: center; gap: 10px; max-width: 185px; min-width: 0; text-decoration: none; padding: 5px; border-radius: var(--radius); }
+.profile-badge:hover { background: var(--surface-active); }
+.header-avatar { display: grid; place-items: center; width: 40px; height: 40px; flex: none; overflow: hidden; border-radius: 50%; background: var(--surface-active); color: var(--glow); border: 1px solid var(--glow-deep); font-family: var(--font-jetbrains), monospace; }
+.header-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-badge-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.button-primary { background: var(--glow); border-color: var(--glow); color: var(--bg); font-weight: 500; }
+.button-primary:hover { background: var(--glow-soft); }
+.button-quiet { background: transparent; border-color: var(--border); }
+.button-danger { border-color: var(--danger); color: var(--danger); }
+.specimen-page h1 { font-size: clamp(38px, 5vw, 64px); }
+.specimen-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.specimen-card { height: 100%; padding: 26px; }
+.specimen-card h2, .specimen-notes { overflow-wrap: anywhere; }
+.bench-heading { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.bench-heading .intro { max-width: 570px; }
+.bench-heading > a { flex: none; font-size: 14px; }
+.bench-boundary { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin: 12px 0 36px; }
+.bench-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid var(--border); padding-top: 24px; }
+.bench-count { color: var(--glow-soft); font-size: 14px; margin: 0; }
+.bench-feedback { color: var(--glow-soft); font-size: 14px; line-height: 1.6; }
+.bench-feedback:empty { margin: 0; }
+.bench-editor { background: var(--surface); border: 1px solid var(--glow-deep); border-radius: var(--radius); padding: 28px; margin: 24px 0; max-width: 760px; }
+.bench-editor fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.bench-editor legend { font-size: 24px; font-weight: 500; margin-bottom: 24px; padding: 0; }
+.bench-field { margin-bottom: 24px; }
+.bench-field label { display: block; font-weight: 500; margin-bottom: 10px; }
+.bench-field input, .bench-field select, .bench-field textarea { display: block; width: 100%; min-height: 48px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; line-height: 1.5; }
+.bench-field textarea { resize: vertical; }
+textarea:focus-visible, select:focus-visible { outline: 2px solid var(--glow); outline-offset: 4px; }
+.bench-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.bench-collection { list-style: none; padding: 0; margin: 28px 0 0; }
+.bench-specimen { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; align-items: start; gap: 24px; border-top: 1px solid var(--border); padding: 28px 0; }
+.bench-specimen-code { font: 12px var(--font-jetbrains), monospace; color: var(--glow); padding-top: 8px; }
+.bench-specimen-content h2 { font-size: 22px; line-height: 1.35; font-weight: 500; margin: 0 0 10px; overflow-wrap: anywhere; }
+.bench-specimen-content p { margin: 0; color: var(--glow-soft); line-height: 1.7; max-width: 70ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bench-row-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.delete-confirm { max-width: 270px; display: flex; flex-wrap: wrap; gap: 8px; }
+.delete-confirm p { width: 100%; margin: 0 0 4px; font-size: 14px; line-height: 1.6; }
+.bench-empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 64px 20px; }
+.bench-empty h2 { margin: 24px 0 8px; font-size: 28px; font-weight: 500; }
+.bench-empty p { color: var(--glow-soft); line-height: 1.7; max-width: 40ch; margin: 0; }
+.empty-dish { width: 80px; height: 80px; border: 1px solid var(--glow-deep); border-radius: 50%; outline: 1px solid var(--border); outline-offset: -9px; background: var(--surface); }
+@media (max-width: 980px) { .bench-heading { align-items: flex-start; flex-direction: column; gap: 4px; } .bench-specimen { grid-template-columns: 110px minmax(0, 1fr); } .bench-row-actions { grid-column: 2; } }
+@media (max-width: 700px) {
+  .lab-header-tools { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+  .lab-nav { grid-column: 1 / -1; justify-content: flex-start; }
+  .profile-badge { max-width: 140px; }
+  .lab-header-tools > .auth-controls { min-width: 0; }
+  .lab-header-tools .lab-button { font-size: 12px; padding: 10px 12px; }
+  .specimen-list { grid-template-columns: 1fr; }
+  .bench-toolbar { align-items: flex-start; flex-direction: column; }
+  .bench-specimen { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .bench-row-actions { grid-column: 1; }
+  .bench-editor { padding: 20px; }
+  .bench-boundary { margin-top: 24px; }
 }

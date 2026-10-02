@@ -77,7 +77,7 @@ export async function saveProfile(_previous: ProfileFormState, form: FormData): 
       const { error: cleanupError } = await supabase.storage.from("profile-photos").remove([oldProfile.avatar_path]).catch(() => ({ error: true }));
       if (cleanupError) console.error("Previous profile photo cleanup failed.");
     }
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     revalidatePath("/profile");
     revalidatePath("/lab/notebook");
     return { status: "success", message: "Profile saved.", firstName: saved.first_name ?? "", lastName: saved.last_name ?? "" };

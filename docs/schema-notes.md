@@ -49,3 +49,21 @@ Each protected page and the profile-save action check authentication on the serv
 The current assignment's gated UI opens the private notebook.
 The notebook reads existing `lab_specimens` data.
 Caption duels and vote history remain separate W4 work and are not simulated.
+
+## W3 extension: personal bench (2026-10-01)
+
+The owner ran `docs/personal-bench.sql`.
+The diagnostic confirmed `punnett_bench_specimens` and the list, save, and delete functions.
+The bench stores independent personal rows with UUID ids, `owner_id`, `label`, `notes`, revision, and timestamps.
+Copies contain a snapshot of a real shared specimen's label and notes.
+No bench mutation writes to `lab_specimens`.
+The owner approved an empty add-specimen state for this personal table only.
+Every function checks `auth.uid()`.
+List, update, and delete use an owner predicate.
+Creation derives the owner from the session.
+Revision checks reject concurrent changes.
+Direct table privileges are revoked from API roles.
+Live anonymous table and RPC requests returned HTTP 401 / 42501.
+Actual signed-in add, copy, edit, reload, and delete tests passed.
+All 11 shared rows remained identical to the baseline after those tests.
+No policies were created or modified.
