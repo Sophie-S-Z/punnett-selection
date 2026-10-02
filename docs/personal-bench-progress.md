@@ -2,7 +2,10 @@
 
 W3 extension: profile identity, personal specimen collection, and interface refinement.
 Database setup and the signed-in local flow passed.
-Production deployment verification is pending.
+Source commit `85c75f4d5f4dc98814ab8af0f0f93465b3746790` is pushed.
+The update is deployed at https://punnett-selection-r7l4jjwzh-sophie-zhangs-projects.vercel.app.
+Public and security deployment checks passed.
+Signed-in deployed verification is pending.
 
 ## What changed
 
@@ -43,7 +46,11 @@ All 11 shared specimens matched the saved baseline after the CRUD tests.
 Anonymous requests to every bench function and the private table were rejected with HTTP 401 / 42501.
 Ownership predicates were reviewed in all three SQL functions.
 A second-account isolation test has not been performed.
-Pending: production deployment and signed-in deployed verification.
+Deployment `dpl_HKSs2jcmSBNKrPnqfHsEfEK1cGN1` is Ready.
+GitHub reports a successful Vercel status for the source commit.
+All eight browser tests passed against the immutable deployment in fresh contexts.
+Deployed visitor and database security checks passed.
+Pending: signed-in deployed verification after the exact callback URL is allowlisted.
 
 ## VERIFY findings (schema, API)
 
