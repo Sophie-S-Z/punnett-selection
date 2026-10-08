@@ -26,6 +26,7 @@ Reference: https://vercel.com/docs/deployment-protection
 | 2 | 1eef337 | https://punnett-selection-o6syifci9-sophie-zhangs-projects.vercel.app | Deployed; six rows visible |
 | 3 | a5d671a550edfc58ba83b70f5bc32c639667154e | https://punnett-selection-c2yydgpbd-sophie-zhangs-projects.vercel.app | Ready; public incognito tests passed; owner confirmed login, profile/photo persistence, notebook, and logout |
 | 3 extension | 85c75f4d5f4dc98814ab8af0f0f93465b3746790 | https://punnett-selection-r7l4jjwzh-sophie-zhangs-projects.vercel.app | Ready to submit; public and security tests passed; owner confirmed the deployed signed-in flow |
+| 4 | 23da9a40f41a7d230018ace69761657af48fe012 | https://punnett-selection-k6xhz9g4h-sophie-zhangs-projects.vercel.app | Ready to submit; public, security, responsive, and actual signed-in Gemini/voting flows passed |
 
 The owner will submit the final URLs in the course portal.
 
@@ -57,3 +58,27 @@ All 11 shared specimens were unchanged after those tests.
 The owner saved the new immutable URL's exact `/auth/callback` allowlist entry in Supabase.
 The owner confirmed the deployed signed-in test passed.
 This source deployment is the verified submission URL for the extension.
+
+## W4 evidence
+
+Source commit: `23da9a40f41a7d230018ace69761657af48fe012`.
+Vercel deployment: `dpl_Er4bGgcNTLQDUm19uKQx2YQYpXU1`.
+Immutable submission URL: https://punnett-selection-k6xhz9g4h-sophie-zhangs-projects.vercel.app.
+Vercel reports Ready and the exact source commit.
+The deployment responds with HTTP 200 without Vercel authentication.
+Protection is disabled; keep it disabled for course access.
+The owner confirmed the exact immutable `/auth/callback` allowlist entry.
+Google login and logout passed through the deployed UI.
+The deployed generation action saved four real Gemini captions for image `b8452b2d-67bd-4600-8a25-775d77d51fa3`.
+A selected pair recorded ATGG-4307 as selected and ACCG-7127 as not selected.
+Both history rows persisted after a full reload.
+The next pair excluded the two judged captions.
+Logout restored the locked chamber and a direct notebook visit redirected to home.
+The existing personal bench remained intact.
+The anonymous security script passed against the deployment and live database.
+The fresh-context browser suite passed 14 tests; three optional authenticated automation cases were skipped.
+Responsive accessibility, overflow, and script-error checks passed at 320, 390, 768, and 1440 pixels.
+Authenticated acceptance used normal browser UI; no session was exported.
+All 38 unit/PostgreSQL tests, lint, application/test TypeScript, production build, and GitHub CI passed.
+Production desktop/mobile screenshots are attached as task artifacts.
+Later documentation-only commits do not change the recorded source deployment.

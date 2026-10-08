@@ -1,8 +1,9 @@
 ## Milestone
 
 W4: real caption generation and paired selection.
-The local authenticated workflow has passed live acceptance.
-The assignment is not ready to submit until the deployed workflow passes.
+The local and immutable deployed authenticated workflows passed live acceptance.
+Submission URL: https://punnett-selection-k6xhz9g4h-sophie-zhangs-projects.vercel.app.
+Source commit: 23da9a40f41a7d230018ace69761657af48fe012.
 
 ## What changed
 
@@ -48,7 +49,18 @@ The first provider test exposed a REST enum mismatch; the corrected APPLICATION_
 The final automated local browser suite passed 14 cases and explicitly skipped three optional storage-state cases.
 Their real signed-in generation/voting acceptance was checked separately through the existing browser session.
 Checks cover responsive axe scans, route/API authorization, exact OAuth callbacks, reduced motion, and actual browser image compression.
-Final deployed evidence is recorded when available.
+Vercel deployment dpl_Er4bGgcNTLQDUm19uKQx2YQYpXU1 is Ready and matches the source commit.
+The immutable URL returns HTTP 200 without Vercel authentication.
+All 14 applicable deployed browser tests passed; three optional authenticated automation cases were explicitly skipped.
+The signed-in flow was verified independently through normal browser UI without exporting credentials or sessions.
+Google login returned to the immutable URL after the owner added its exact callback allowlist entry.
+A new production upload generated and saved four real Gemini captions.
+Selecting one pair created two opposing history rows; both survived a full refresh.
+The next pair excluded both judged captions.
+Logout restored the locked public chamber and redirected a direct notebook visit to home.
+GitHub Actions quality checks passed for the source commit.
+Production desktop and mobile screenshots are saved with the task artifacts.
+Full deployment evidence is in docs/deployment.md.
 
 ## VERIFY findings (schema, API)
 
@@ -71,12 +83,11 @@ The registry has no compatible patched braces release; forced framework downgrad
 
 Gemini configuration and database setup are confirmed complete.
 Keep Vercel deployment protection off.
-Allowlist the immutable deployment's exact /auth/callback URL if needed.
-Confirm any requested new immutable callback allowlist entry.
+The owner confirmed the immutable deployment's exact /auth/callback allowlist entry.
 The owner submits the verified commit-specific URL in the course portal.
 
 ## Open questions
 
-Does the real upload-to-generation-to-selection flow pass on the immutable deployed URL?
-
-The required production acceptance check remains open until deployment is verified.
+No implementation or deployment acceptance question remains open.
+The owner must submit the recorded URL and provide the PM's feedback for the next iteration.
+Physical phone camera permission and capture were not tested on a physical handset; browser image upload and compression passed.

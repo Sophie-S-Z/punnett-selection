@@ -178,3 +178,8 @@ The generation action sends the exact constructed model prompt to the creation R
 The isolated PostgreSQL test verifies that the RPC persists the supplied prompt.
 Prompt contents were not independently read back from the live database.
 Deployment-specific public and signed-in acceptance remains a separate check.
+
+The separate production acceptance check passed on source commit 23da9a40f41a7d230018ace69761657af48fe012.
+The immutable deployment completed real Gemini generation and persisted a paired vote after reload.
+Deployed anonymous operations remain denied; public completed captions and images are readable.
+See docs/deployment.md for the exact URL and evidence.
