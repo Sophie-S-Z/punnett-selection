@@ -59,16 +59,16 @@ export function PersonalBench({ initial, shared }: { initial: BenchSpecimen[]; s
     {editor ? <form className="bench-editor" onSubmit={save}>
       <fieldset disabled={pending}>
         <legend>{editor.revision === 0 ? "New specimen" : "Edit specimen"}</legend>
-        {editor.revision === 0 && shared.length ? <div className="bench-field">
-          <label htmlFor="bench-source">Start from a shared specimen <span className="field-optional">(optional)</span></label>
-          <select id="bench-source" defaultValue="" onChange={(event) => {
+        {shared.length ? <div className="bench-field">
+          <label htmlFor="bench-source">Choose a real organism</label>
+          <select id="bench-source" value={String(shared.find(row=>row.label===editor.label)?.id ?? "")} required onChange={(event) => {
             const row = shared.find((item) => String(item.id) === event.target.value);
             setEditor({ ...editor, label: row?.label ?? "", notes: row?.notes ?? "" });
-          }}><option value="">Create your own</option>{shared.map((row) => <option key={row.id} value={row.id}>{row.code} · {row.label}</option>)}</select>
-          <p className="field-help">This makes a separate copy that you can change.</p>
+          }}><option value="">Select flora, fauna, or fungi</option>{shared.map((row) => <option key={row.id} value={row.id}>{row.code} · {row.label}</option>)}</select>
+          <p className="field-help">Keep the real taxon. Add your own funny, factual observations below.</p>
         </div> : null}
         <div className="bench-field"><label htmlFor="bench-label">Specimen name</label>
-          <input id="bench-label" required maxLength={200} value={editor.label} onChange={(event) => setEditor({ ...editor, label: event.target.value })} autoFocus />
+          <input id="bench-label" required maxLength={200} value={editor.label} readOnly />
         </div>
         <div className="bench-field"><label htmlFor="bench-notes">Field notes <span className="field-optional">(optional)</span></label>
           <textarea id="bench-notes" rows={4} maxLength={4000} value={editor.notes} onChange={(event) => setEditor({ ...editor, notes: event.target.value })} />

@@ -31,12 +31,17 @@ The owner runs `docs/w4-rating.sql` in the existing Supabase project.
 The script creates app-owned tables and authenticated RPCs without changing RLS policies.
 Read `docs/schema-notes.md` and `docs/caption-api.md` for the verified contracts.
 
-Sign in with Google and open `/incubator` to upload an image and generate captions.
+Sign in with Google and open `/incubator` to choose a real flora, fauna, or fungal specimen from the live public lab.
+Pick a random specimen for an unexpected organism.
+Generate funny field notes from its saved facts; a field photo is optional.
+Each caption preserves the common name and scientific taxon.
 Send the completed culture to the selection chamber.
 Select with a click, A, or B.
 Press S to skip.
 Each selection stores opposing votes for two captions from the same image.
 Open `/lab/notebook` to review your saved selections.
+Private bench names also come from the public catalog; personal field notes remain editable.
+The owner runs `docs/flora-fauna-correction.sql` to repair existing public/private content and archive the website test cultures with their votes preserved.
 
 Use `main` for production.
 Keep environment values in `.env.local` and Vercel settings.

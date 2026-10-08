@@ -59,6 +59,7 @@ test.describe("actual authenticated rating acceptance", () => {
     const camera = page.locator(".culture-camera input");
     await expect(camera).toHaveAttribute("accept", "image/*");
     await expect(camera).toHaveAttribute("capture", "environment");
+    await page.getByRole("button", {name:"Pick a random specimen"}).click();
     // Deliberately invalid bytes exercise validation before any model or database call.
     await input.setInputFiles({ name: "corrupt-test.png", mimeType: "image/png", buffer: Buffer.from("invalid image contents") });
     await page.getByRole("button", { name: "Hatch specimens" }).click();
@@ -102,8 +103,8 @@ test.describe("actual authenticated rating acceptance", () => {
     await expect(page.getByRole("button", { name: "Remove gloves", exact: true })).toBeVisible();
     const cards = page.locator(".duel-card");
     test.skip(await cards.count() !== 2, "No real unjudged pair is available for this account.");
-    const winnerText = (await cards.nth(0).locator(".duel-caption").innerText()).trim();
-    const loserText = (await cards.nth(1).locator(".duel-caption").innerText()).trim();
+    const winnerText = (await cards.nth(0).getAttribute("aria-label"))!.replace(/^Select specimen A: /, "");
+    const loserText = (await cards.nth(1).getAttribute("aria-label"))!.replace(/^Select specimen B: /, "");
     await cards.first().click();
     await expect(page.getByText("Selection saved.", { exact: true })).toBeVisible();
     await expect(page.getByRole("region", { name: "Selection chamber", exact: true })).toHaveAttribute("aria-busy", "false");
@@ -118,7 +119,7 @@ test.describe("actual authenticated rating acceptance", () => {
     await expect(page.getByText(winnerText, { exact: true })).toBeVisible();
     await expect(page.getByText(loserText, { exact: true })).toBeVisible();
     await page.goto("/");
-    await expect(page.locator(".duel-caption").filter({ hasText: winnerText })).toHaveCount(0);
-    await expect(page.locator(".duel-caption").filter({ hasText: loserText })).toHaveCount(0);
+    await expect(page.getByRole("button",{name:`Select specimen A: ${winnerText}`,exact:true})).toHaveCount(0);
+    await expect(page.getByRole("button",{name:`Select specimen B: ${loserText}`,exact:true})).toHaveCount(0);
   });
 });

@@ -1,0 +1,199 @@
+{
+  "verifiedAt": "2026-10-08",
+  "status": "reviewed_content_proposal_not_applied",
+  "inventory": {
+    "source": "Live anonymous read of public.lab_specimens",
+    "query": "select id, code, label, notes; order by id ascending",
+    "rowCount": 11,
+    "identitiesPreserved": true
+  },
+  "editorialRules": [
+    "Every entry names an actual organism or an explicitly identified taxonomic group.",
+    "Scientific statements are paraphrased from museum, university, botanical-garden, or original research sources.",
+    "The final sentence of each note is an original humorous interpretation, not a biological claim.",
+    "No entry claims the app possesses preserved tissues, extracts, roadkill, or physical museum specimens.",
+    "Fungi are identified as fungi. They are not classified as plants or animals.",
+    "Source URLs are editorial evidence. Runtime UI must continue to read stored Supabase content."
+  ],
+  "publicRows": [
+    {
+      "id": 1,
+      "code": "LAB-001",
+      "existingLabel": "Gympie-gympie Leaf (Dendrocnide moroides)",
+      "label": "Gympie-gympie (Dendrocnide moroides)",
+      "taxon": "Dendrocnide moroides",
+      "category": "plant",
+      "notes": "This Australian stinging plant carries fine hairs that deliver potent toxins and can cause lasting pain. Soft-looking leaves; aggressively enforced personal space.",
+      "sourceURLs": [
+        "https://news.uq.edu.au/2020-09-17-native-stinging-tree-toxins-match-pain-spiders-and-cone-snails",
+        "https://media.australian.museum/media/dd/documents/ams370_vXXIV_07_LowRes.acd764d.pdf"
+      ],
+      "verifiedFacts": ["Australian Dendrocnide plants have toxin-delivering stinging hairs and can cause long-lasting pain.", "The Australian Museum identifies D. moroides as the gympie or stinging bush."],
+      "removedClaims": ["Unverified suicide anecdote.", "Invented handling claim about a specific 1910 herbarium sheet."]
+    },
+    {
+      "id": 2,
+      "code": "LAB-002",
+      "existingLabel": "Cane Toad (Rhinella marina), Roadkill Flattened",
+      "label": "Cane toad (Rhinella marina)",
+      "taxon": "Rhinella marina",
+      "category": "animal",
+      "notes": "This large toad was introduced to Australia in 1935 to control cane beetles. The effort failed, and the toads spread. Pest-control hire; permanent tenant.",
+      "sourceURLs": [
+        "https://publications.australian.museum/blog/amri-news/how-can-you-tell-the-difference-between-a-cane-toad-and-a-native-australian-frog-species/"
+      ],
+      "verifiedFacts": ["Australian introduction occurred in 1935.", "The beetle-control attempt was unsuccessful and the species spread across northern Australia."],
+      "removedClaims": ["Unsubstantiated roadkill condition and truck encounter.", "Anthropomorphic claim that toads refused to eat beetles."]
+    },
+    {
+      "id": 3,
+      "code": "LAB-003",
+      "existingLabel": "Exploding Ant (Colobopsis explodens)",
+      "label": "Exploding ant (Colobopsis explodens)",
+      "taxon": "Colobopsis explodens",
+      "category": "animal",
+      "notes": "Small workers defend the colony by rupturing their bodies and releasing sticky gland secretions, killing themselves. A security system with no reset button.",
+      "sourceURLs": [
+        "https://www.nhm.at/presse/praesentation_einer_neuen_art_von_explodierenden_ameisen_unter_nhm_wien-beteiligung_"
+      ],
+      "verifiedFacts": ["Minor workers can rupture their bodies in defense.", "The secretions come from enlarged glands; the defending worker dies."],
+      "removedClaims": ["Imprecise claim that all internal organs rupture."]
+    },
+    {
+      "id": 4,
+      "code": "LAB-004",
+      "existingLabel": "Severed Clam Foot (Siliqua patula)",
+      "label": "Pacific razor clam (Siliqua patula)",
+      "taxon": "Siliqua patula",
+      "category": "animal",
+      "notes": "This Pacific bivalve burrows vertically through sand and can dig roughly a foot per minute. The beach's least sociable elevator.",
+      "sourceURLs": [
+        "https://blogs.oregonstate.edu/coastaltourism/razor-clams-siliqua-patula/"
+      ],
+      "verifiedFacts": ["Pacific razor clams burrow vertically in sand.", "Oregon State Sea Grant reports digging speeds up to a foot per minute."],
+      "removedClaims": ["Invented severed-foot preservation and formalin storage."]
+    },
+    {
+      "id": 5,
+      "code": "LAB-005",
+      "existingLabel": "Zombie-Ant Fungus (Ophiocordyceps unilateralis)",
+      "label": "Zombie-ant fungus (Ophiocordyceps unilateralis complex)",
+      "taxon": "Ophiocordyceps unilateralis sensu lato",
+      "category": "fungus",
+      "notes": "These fungi manipulate carpenter ants into gripping vegetation before a spore-bearing stalk grows from the dead ant's head. The final performance review has a fungal attachment.",
+      "sourceURLs": [
+        "https://www.psu.edu/news/research/story/zombie-ant-brains-left-intact-fungal-parasite"
+      ],
+      "verifiedFacts": ["The reported research concerns a species complex rather than one universally interchangeable fungus.", "Infected carpenter ants climb vegetation and attach by their mandibles.", "The fungus later produces a spore-bearing stalk from the head."],
+      "removedClaims": ["Unsupported assertion that the fungus hijacks motor neurons.", "Uniform humidity and leaf-vein behavior presented as true for every member of the complex."],
+      "classificationNote": "Fungi form a separate kingdom. This row remains an actual biological subject, not a plant."
+    },
+    {
+      "id": 6,
+      "code": "LAB-006",
+      "existingLabel": "Dead Man's Fingers (Xylaria polymorpha)",
+      "label": "Dead man's fingers (Xylaria polymorpha)",
+      "taxon": "Xylaria polymorpha",
+      "category": "fungus",
+      "notes": "This fungus produces dark, finger-shaped reproductive structures on dead or dying wood. A rotting log now appears to be raising a corpse's hand. The forest has chosen deeply unsettling customer service.",
+      "sourceURLs": [
+        "https://hort.extension.wisc.edu/articles/dead-mans-fingers/",
+        "https://extension.uga.edu/content/dam/extension-county-offices/coweta-county/anr/mgev/mgev-newsletters/2022/2022-8%20MGEV%20Newsletter.pdf"
+      ],
+      "verifiedFacts": ["Xylaria fruiting structures are finger-like and associated with dead or dying wood.", "University of Georgia Extension identifies X. polymorpha by this common name."],
+      "removedClaims": ["Unsupported claim about routine cardiac events among field biologists."],
+      "classificationNote": "Fungi form a separate kingdom. This row remains an actual biological subject, not a plant."
+    },
+    {
+      "id": 7,
+      "code": "LAB-007",
+      "existingLabel": "Sea Cucumber Evisceration Cluster (Holothuroidea)",
+      "label": "Sea cucumbers (Holothuroidea)",
+      "taxon": "Holothuroidea",
+      "category": "animal_group",
+      "notes": "Some sea cucumbers expel internal organs when threatened and can regenerate the lost parts. Predator arrives; this animal rage-quits its own anatomy. Nature's most aggressive unboxing video.",
+      "sourceURLs": [
+        "https://ocean.si.edu/ocean-life/invertebrates/sea-stars-urchins-and-relatives"
+      ],
+      "verifiedFacts": ["Holothuroidea is a class containing many sea cucumber species.", "Evisceration and subsequent regeneration occur in sea cucumbers; anatomy and timing differ by species."],
+      "removedClaims": ["Invented evisceration-cluster physical specimen.", "Universal anal expulsion and fixed six-week regeneration deadline."],
+      "classificationNote": "This entry identifies a real class of animals, not a species or a documented individual."
+    },
+    {
+      "id": 8,
+      "code": "LAB-008",
+      "existingLabel": "Tongue-Eating Isopod (Cymothoa exigua)",
+      "label": "Tongue-replacing isopod (Cymothoa exigua)",
+      "taxon": "Cymothoa exigua",
+      "category": "animal",
+      "notes": "This parasitic crustacean can cause a fish's tongue to degenerate and attach where it once sat. A roommate who takes the phrase 'shared kitchen' too literally.",
+      "sourceURLs": [
+        "https://desertmuseum.org/center/seaofcortez/docs/brusca_gilligan_1983.pdf"
+      ],
+      "verifiedFacts": ["The primary report documents tongue degeneration and attachment to the tongue stub and mouth floor in spotted rose snapper.", "Functional mechanical replacement was proposed from observed feeding and anatomy."],
+      "removedClaims": ["False claim that the fish tastes through the parasite.", "Incorrect twelve-leg count.", "Unverified lifetime claim."],
+      "sourceNote": "Original research paper hosted by the Arizona-Sonora Desert Museum."
+    },
+    {
+      "id": 9,
+      "code": "LAB-009",
+      "existingLabel": "Fulmar Chick Vomit Extract (Fulmarus glacialis)",
+      "label": "Northern fulmar (Fulmarus glacialis)",
+      "taxon": "Fulmarus glacialis",
+      "category": "animal",
+      "notes": "Northern fulmars defend nesting sites by spitting foul-smelling stomach oil at intruders. Personal space, enforced with salad dressing.",
+      "sourceURLs": [
+        "https://animaldiversity.org/accounts/Fulmarus_glacialis/"
+      ],
+      "verifiedFacts": ["Northern fulmars use oil-spitting to defend nesting sites.", "The stomach oil is foul-smelling and is directed at threats."],
+      "removedClaims": ["Invented collected vomit extract.", "Unsupported universal claim of permanent feather-waterproofing destruction."],
+      "sourceNote": "Animal Diversity Web is maintained by the University of Michigan Museum of Zoology."
+    },
+    {
+      "id": 10,
+      "code": "LAB-010",
+      "existingLabel": "Hairy Frog (Trichobatrachus robustus)",
+      "label": "Hairy frog (Astylosternus robustus)",
+      "taxon": "Astylosternus robustus",
+      "taxonAliases": ["Trichobatrachus robustus"],
+      "category": "animal",
+      "notes": "This frog can deploy sharp toe-bone claws through its skin when threatened. The emergency toolkit has no regard for the packaging.",
+      "sourceURLs": [
+        "https://amphibiansoftheworld.amnh.org/Amphibia/Anura/Arthroleptidae/Astylosterninae/Astylosternus/Astylosternus-robustus",
+        "https://hankenlab.oeb.harvard.edu/publications/concealed-weapons-erectile-claws-african-frogs"
+      ],
+      "verifiedFacts": ["AMNH currently places the hairy frog in Astylosternus; the prior Trichobatrachus combination refers to the same species.", "The sharp phalanx separates from its anchoring nodule and pierces the skin."],
+      "removedClaims": ["Misleading claim that the frog snaps and splinters its own toe bones."],
+      "classificationNote": "Updated genus follows AMNH's current reference; historical names remain as aliases."
+    },
+    {
+      "id": 11,
+      "code": "LAB-011",
+      "existingLabel": "Surinam Toad Dorsal Skin (Pipa pipa)",
+      "label": "Surinam toad (Pipa pipa)",
+      "taxon": "Pipa pipa",
+      "category": "animal",
+      "notes": "Females carry developing young in pockets of skin on their backs; the offspring emerge as tiny, fully formed frogs. A family apartment building with extremely personal plumbing.",
+      "sourceURLs": [
+        "https://animaldiversity.org/accounts/Pipa_pipa/"
+      ],
+      "verifiedFacts": ["Eggs become embedded in the female's dorsal skin.", "Young emerge as miniature frogs after development in these pockets."],
+      "removedClaims": ["Invented preserved dorsal-skin specimen.", "Unnecessary medicalized trypophobia claim."],
+      "sourceNote": "Animal Diversity Web is maintained by the University of Michigan Museum of Zoology."
+    }
+  ],
+  "privatePlan": {
+    "status": "proposed_owner_scoped_replacement_not_applied",
+    "targetCurrentLabel": "Testing",
+    "label": "Exploding ant (Colobopsis explodens)",
+    "taxon": "Colobopsis explodens",
+    "category": "animal",
+    "notes": "Small workers defend the colony by rupturing their bodies and releasing sticky gland secretions, killing themselves. A security system with no reset button.",
+    "sourceURLs": [
+      "https://www.nhm.at/presse/praesentation_einer_neuen_art_von_explodierenden_ameisen_unter_nhm_wien-beteiligung_"
+    ],
+    "verifiedFacts": ["Minor workers can rupture their bodies in defense.", "The defending worker releases sticky gland secretions and dies."],
+    "mutationPlan": "The owner-run SQL correction changes only the known Testing/testing... placeholder to this existing public specimen. Original rows are backed up before changes. No private row ids are invented.",
+    "publicRowsUnaffected": true
+  }
+}

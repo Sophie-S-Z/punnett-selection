@@ -19,7 +19,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ a
   catch { error = "The selection chamber could not load specimens. Reload to try again. The lab owner may need to complete database setup."; }
   return <div className="lab-shell"><LabHeader /><main id="main">
     <div className="chamber-heading"><div><p className="eyebrow">The Humor Project · Selection chamber</p><h1>Two specimens.<br />One survives.</h1>
-      <p className="intro">Same image. Two captions. Select the one that deserves another generation.</p></div>
+      <p className="intro">Real flora, fauna, and fungi. Two wild field notes. Select the funniest account of nature&apos;s questionable behavior.</p></div>
       <p className="ink-note">natural selection. questionable taste.</p>
     </div>
       {params.auth === "failed" ? <p role="alert" className="form-error">Sign-in was not completed. Please try Google sign-in again.</p> : null}

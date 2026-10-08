@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { parseBenchSpecimen, UUID_PATTERN, validateBench, type BenchSpecimen } from "@/lib/punnett/bench";
+import { validateBenchSource } from "@/lib/punnett/benchSource";
 
 type Result = { error: string; specimen?: never } | { error?: never; specimen?: BenchSpecimen };
 
@@ -18,6 +19,12 @@ export async function changeBench(operation: "save" | "delete", id: string, revi
     const supabase = await createClient();
     const { data: auth, error: authError } = await supabase.auth.getUser();
     if (authError || !auth.user) return { error: "Your session has ended. Sign in again before changing your bench." };
+    if (operation === "save") {
+      const {data: catalog,error: catalogError} = await supabase.from("lab_specimens").select("label,notes");
+      if (catalogError || !catalog?.length) return {error:"The public lab could not be checked. Reload before saving."};
+      const sourceError = validateBenchSource(label,notes,catalog);
+      if (sourceError) return {error:sourceError};
+    }
     const args = { id_input: id, revision_input: revision };
     const { data, error } = operation === "save"
       ? await supabase.rpc("punnett_save_bench", { ...args, label_input: label.trim(), notes_input: notes.trim() })

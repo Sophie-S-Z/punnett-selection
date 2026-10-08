@@ -46,8 +46,15 @@ GIF input uses its first frame.
 Decoded images are limited to 40 million pixels. Stored JPEG data is limited to 2 MiB.
 The saved image is the same JPEG that Gemini receives.
 
-The default prompt targets dry campus humor for a Columbia junior exploring New York.
-Custom direction is appended to the instruction prompt.
+The prompt now targets real flora, fauna, and fungi from the live public specimen catalog.
+The authenticated action reads the submitted specimenId from lab_specimens; it never trusts client-supplied names or facts.
+Every caption starts with the saved common name and scientific taxon, followed by an em dash and a funny natural-history description.
+Optional direction adjusts tone only, up to 300 characters; it cannot change species or override the source facts.
+Unrelated website screenshots and instructions cannot determine the subject.
+Images are optional; without a photo, the action renders an explicitly labelled specimen fact card from the saved source name.
+The generated fact card is not presented as a photograph of the organism.
+Malformed labels, mixed taxa, empty descriptions, duplicate text, and obvious website/app topics are rejected before caption completion.
+Biological truth is anchored to source notes and bounded model instructions; this is not a claim of automated scientific fact verification.
 The full exact prompt and model identifier are stored with the generation request before the provider call.
 
 The action calls these app-owned RPCs using the authenticated anon client:

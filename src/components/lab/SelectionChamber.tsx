@@ -91,9 +91,11 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
         <div className="duel-cards"><AnimatePresence mode="wait" initial={false}><motion.div className="duel-pair" key={`${pair.left.id}:${pair.right.id}`} initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .2 }}>
           {(["left", "right"] as const).map((side, index) => {
             const caption = pair[side];
+            const separator = caption.text.indexOf(" — ");
             return <motion.button type="button" key={caption.id} className="duel-card" disabled={!signedIn || pending} aria-pressed={winner === caption.id} aria-label={`Select specimen ${index === 0 ? "A" : "B"}: ${caption.text}`} onClick={() => void choose(side)} data-state={winner ? winner === caption.id ? "winner" : "loser" : "idle"}>
               <span className="duel-card-meta"><span className="eyebrow">SPC-{index === 0 ? "A" : "B"} · {specimenCode(caption.id)}</span><span className="duel-key" aria-hidden="true">{index === 0 ? "A" : "B"}</span></span>
-              <span className="duel-caption">{caption.text}</span><span className="duel-select-label">{winner === caption.id ? "Selected" : "Select specimen"}<span aria-hidden="true">↗</span></span>
+              {separator > 0 ? <span className="duel-species">{caption.text.slice(0,separator)}</span> : null}
+              <span className="duel-caption">{separator > 0 ? caption.text.slice(separator+3) : caption.text}</span><span className="duel-select-label">{winner === caption.id ? "Selected" : "Select specimen"}<span aria-hidden="true">↗</span></span>
             </motion.button>;
           })}
         </motion.div></AnimatePresence>
