@@ -97,3 +97,21 @@ Anonymous security checks passed again after the repair.
 Private bench readback, fresh signed-in generation, and persisted voting on this corrected deployment remain pending.
 Browser automation timed out while attaching and attempting login; no signed-in success is inferred from public checks.
 Keep Vercel deployment protection off.
+
+## Ecosystem deployment evidence (2026-10-08)
+
+Source commit: `0950f97d3e716deb63575c265972d81984c47603`.
+Vercel deployment: `dpl_9oUHQ5UnrT7yxZmEeZQxN6AxsqaP`.
+Immutable URL: https://punnett-selection-ksi2gjg5u-sophie-zhangs-projects.vercel.app.
+Vercel reports Ready and the exact source commit; GitHub CI succeeded.
+The owner confirmed the exact immutable `/auth/callback` allowlist entry is saved.
+The owner ran the finalized SQL scripts in order.
+Live readback returned 44 completed field notes across 11 organisms.
+The seed snippet's renaming error did not prevent execution; no rerun is required.
+The deployed anonymous authorization suite passed, including the discovery RPCs and private proposal table denial.
+Fresh browser contexts passed 18 tests covering both rating modes, responsive accessibility and overflow at four widths, server route protection, failed callback recovery, and the exact sign-in callback request.
+Four optional signed-in browser cases were skipped without authenticated test state.
+The live signed-in survival, discovery publication, refresh persistence, and private bench readback checks remain pending.
+Browser automation timed out on semantic and accessibility clicks; the owner was asked to sign in manually.
+Keep deployment protection off.
+Later documentation-only commits do not change this recorded source deployment.

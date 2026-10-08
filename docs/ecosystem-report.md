@@ -49,7 +49,18 @@ Optional authenticated automation tests are explicitly skipped without a real se
 The real provider discovery check produced Bobbit worm (Eunice aphroditois), GBIF key 5198482, a matching Wikipedia revision, and four validated Gemini descriptions.
 Its exact public prompts and outputs are recorded in discovery-provider-check.json.
 That provider check did not publish database rows.
-Owner SQL application and live deployment acceptance remain pending.
+The owner ran all three SQL scripts.
+The owner reported a saved-snippet renaming error on the 340 KB image-bearing seed script.
+Live readback confirmed successful execution: 44 field notes across 11 organisms, with no further caption page.
+The renamed-snippet failure did not prevent the data transaction from committing.
+The extended live anonymous authorization checks passed.
+Source commit 0950f97d3e716deb63575c265972d81984c47603 is Ready at https://punnett-selection-ksi2gjg5u-sophie-zhangs-projects.vercel.app.
+The live UI renders both expanded counts and real organism field notes.
+The deployed fresh-context browser suite passed 18 tests at 320, 390, 768, and 1440 pixels.
+Four optional authenticated cases were skipped because no real authenticated test session was supplied.
+GitHub CI passed for the exact source commit.
+The owner confirmed the immutable deployment's exact callback URL is saved.
+Signed-in acceptance remains pending: browser automation timed out on both semantic and accessibility clicks while starting sign-in.
 
 ## VERIFY findings (schema, API)
 
@@ -67,11 +78,12 @@ Design references: https://ui.aceternity.com/components/card-spotlight and https
 
 ## HUMAN tasks needed
 
-Run ecosystem-rating.sql, ecosystem-discovery.sql, and ecosystem-seed.sql in that order in the Supabase SQL editor.
-Confirm the discovery table reports RLS enabled and the expanded feed returns 11 organisms and at least 44 descriptions.
 Keep Vercel deployment protection off.
-Add the new commit-specific deployment's exact /auth/callback URL when supplied.
+The owner confirmed https://punnett-selection-ksi2gjg5u-sophie-zhangs-projects.vercel.app/auth/callback is saved in Supabase Auth Redirect URLs.
+Sign in manually on that deployment so signed-in acceptance can continue.
+The seed query may remain unnamed; optionally replace its editor contents with ecosystem-check.sql before saving or renaming.
 
 ## Open questions
 
-The owner-run SQL, fresh live survival rating, fresh discovery publication, refresh persistence, and deployed signed-in acceptance remain open.
+The owner-run SQL and live public content readback passed.
+Fresh live survival rating, discovery publication, refresh persistence, and deployed signed-in acceptance remain open.

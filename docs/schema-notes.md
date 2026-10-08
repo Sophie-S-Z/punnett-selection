@@ -211,3 +211,11 @@ Catalog insertion and completed generation creation commit atomically.
 Publication retries reuse the saved culture.
 The owner enables RLS on the new table; no policies are created or changed.
 Live owner application is not inferred from isolated PostgreSQL test success.
+
+The owner subsequently confirmed all finalized extension scripts were executed in order.
+Live public readback returned 44 completed captions across 11 organisms on 2026-10-08.
+The new public aggregate RPC and deployed UI show those actual counts.
+Live anonymous survival/discovery mutation RPC calls were rejected, and private proposal table reads were denied.
+Editorial starter cultures have an owner-only `is_catalog_seed` flag; quota calculations exclude those cultures but count pending and failed user attempts.
+The exact seed migration's isolated PostgreSQL test verifies idempotence, preservation of votes, and ten user attempts after eleven starter cultures.
+Signed-in live publication and owner-specific readback are still separate pending acceptance checks.
