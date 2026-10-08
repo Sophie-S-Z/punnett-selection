@@ -20,7 +20,14 @@ Eight real Gemini captions are stored as new, unjudged cultures.
 
 TDD covers named-taxon generation, off-theme rejection, source identity, escaped fact-card rendering, and the exact transactional SQL correction.
 The correction test verifies private backups, preserved votes, exclusion of archived history, eight active biological captions, and no duplicate seed cultures on rerun.
-Live deployment and owner-run correction evidence will be recorded below.
+All 42 unit/PostgreSQL tests passed, along with lint, application/test TypeScript, and the production build.
+Source commit 895acc8611aca3f48f611dfb44f801ab29217b67 is deployed as Ready at https://punnett-selection-5la2wtwrk-sophie-zhangs-projects.vercel.app.
+GitHub CI passed.
+The deployed security checks passed.
+The deployed browser suite passed 14 tests, with three optional authenticated automation tests explicitly skipped.
+Responsive accessibility and overflow checks passed at 320, 390, 768, and 1440 pixels.
+The owner-run live content correction and new callback allowlist confirmation are pending.
+Existing live content is not claimed corrected until that transaction and readback pass.
 
 ## VERIFY findings (schema, API)
 
@@ -38,6 +45,7 @@ The new backup table has revoked API privileges and owner-enabled RLS.
 Run flora-fauna-correction.sql in the Supabase SQL editor and confirm its successful diagnostics.
 Keep deployment protection off.
 Add the new immutable deployment's exact /auth/callback redirect entry when supplied.
+The requested entry is https://punnett-selection-5la2wtwrk-sophie-zhangs-projects.vercel.app/auth/callback.
 
 ## Open questions
 

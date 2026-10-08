@@ -10,12 +10,18 @@ const publicResult = await fetch(`${env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/pu
 if (!publicResult.ok) throw new Error("The existing public catalog could not be read.");
 const existing = await publicResult.json();
 const oldImages = [...new Set<string>(existing.captions.filter((row:{text:string})=>!/^[^\n]+ \([A-Z][^)]+\) — /.test(row.text)).map((row:{imageId:string})=>row.imageId))];
-const quote = (value:string) => `'${value.replace(/'/g,"''")}'`;
+const quote = (value:string) => `E'${value.replace(/\\/g,"\\\\").replace(/'/g,"''").replace(/\r/g,"\\r").replace(/\n/g,"\\n")}'`;
 const model = env.GEMINI_MODEL || "gemini-3.5-flash-lite";
+const reviewed = process.argv.includes("--reuse-reviewed") ? JSON.parse(await fs.readFile("docs/flora-fauna-generated.json","utf8")) : null;
 const seeds = await Promise.all([6,7].map(async (id,index)=>{
   const source = proposal.publicRows.find((row:{id:number})=>row.id===id);
   const prompt = buildGenerationPrompt("Make the biological facts absurdly funny, vivid, and dry. Do not add facts.",source);
   const jpeg = await sharp(Buffer.from(specimenFactCard(source))).jpeg({quality:80}).toBuffer();
+  if (reviewed) {
+    const seed = reviewed.find((row:{sourceId:number})=>row.sourceId===id);
+    if (!seed || seed.label !== source.label) throw new Error("Reviewed source no longer matches the catalog proposal.");
+    return {...seed,image:`data:image/jpeg;base64,${jpeg.toString("base64")}`};
+  }
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":env.GEMINI_API_KEY!},body:JSON.stringify(geminiRequest(prompt,jpeg.toString("base64"))),signal:AbortSignal.timeout(45000)});
   if (!response.ok) throw new Error(`Provider request failed (${response.status}).`);
   return {sourceId:id,label:source.label,prompt,model,captions:parseGeneratedCaptions(await response.json(),source),image:`data:image/jpeg;base64,${jpeg.toString("base64")}`,oldImage:oldImages[index] ?? oldImages[0]};
