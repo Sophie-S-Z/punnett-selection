@@ -82,3 +82,18 @@ Authenticated acceptance used normal browser UI; no session was exported.
 All 38 unit/PostgreSQL tests, lint, application/test TypeScript, production build, and GitHub CI passed.
 Production desktop/mobile screenshots are attached as task artifacts.
 Later documentation-only commits do not change the recorded source deployment.
+
+## Flora/fauna correction evidence
+
+Source commit: `895acc8611aca3f48f611dfb44f801ab29217b67`.
+Vercel deployment: `dpl_5UvJ4rgX5yVLRDneubDKMQYwF3cK`.
+Corrected workflow URL: https://punnett-selection-5la2wtwrk-sophie-zhangs-projects.vercel.app.
+Use this deployment for the organism workflow instead of the historical W4 deployment.
+The owner confirmed its exact `/auth/callback` entry is saved.
+The owner confirmed the content correction SQL succeeded.
+Live public readback matches all 11 corrected labels and notes and returns eight organism captions.
+The repaired public browser suite passed 14 tests; three signed-in cases were skipped.
+Anonymous security checks passed again after the repair.
+Private bench readback, fresh signed-in generation, and persisted voting on this corrected deployment remain pending.
+Browser automation timed out while attaching and attempting login; no signed-in success is inferred from public checks.
+Keep Vercel deployment protection off.

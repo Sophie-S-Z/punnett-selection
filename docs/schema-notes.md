@@ -183,3 +183,14 @@ The separate production acceptance check passed on source commit 23da9a40f41a7d2
 The immutable deployment completed real Gemini generation and persisted a paired vote after reload.
 Deployed anonymous operations remain denied; public completed captions and images are readable.
 See docs/deployment.md for the exact URL and evidence.
+
+## Flora/fauna correction live readback (2026-10-08)
+
+The owner confirmed the correction transaction succeeded.
+All 11 live public labels and notes exactly match `docs/flora-fauna-content.json`.
+The public caption RPC returns eight active captions about the named organisms and no website captions.
+The dead man's fingers culture uses image `c6da54f1-df9e-48e4-9e40-c1e2e954975b`.
+The sea cucumber culture uses image `44bbda39-860a-4631-b51d-b33718d3ebd5`.
+The owner confirmed the corrected immutable deployment's exact callback is allowlisted.
+Private bench correction is covered by the exact SQL integration test but still requires signed-in live readback.
+No RLS policy statements were created or changed.

@@ -26,8 +26,12 @@ GitHub CI passed.
 The deployed security checks passed.
 The deployed browser suite passed 14 tests, with three optional authenticated automation tests explicitly skipped.
 Responsive accessibility and overflow checks passed at 320, 390, 768, and 1440 pixels.
-The owner-run live content correction and new callback allowlist confirmation are pending.
-Existing live content is not claimed corrected until that transaction and readback pass.
+The owner confirmed the live content correction succeeded and the exact deployment callback was allowlisted.
+Live readback matches all 11 proposed public labels and notes.
+The public caption RPC returns eight biological captions and no website captions.
+The security and 14 public browser checks passed again after the repair.
+Fresh desktop and mobile screenshots show the repaired chamber.
+Signed-in checks on this corrected deployment remain pending; the in-app browser connection times out when attempting login.
 
 ## VERIFY findings (schema, API)
 
@@ -42,11 +46,10 @@ The new backup table has revoked API privileges and owner-enabled RLS.
 
 ## HUMAN tasks needed
 
-Run flora-fauna-correction.sql in the Supabase SQL editor and confirm its successful diagnostics.
 Keep deployment protection off.
-Add the new immutable deployment's exact /auth/callback redirect entry when supplied.
-The requested entry is https://punnett-selection-5la2wtwrk-sophie-zhangs-projects.vercel.app/auth/callback.
+Confirm the private bench correction, fresh organism generation, and two persisted opposing votes after notebook reload on the corrected deployment.
 
 ## Open questions
 
-The live content correction and deployed authenticated generation must pass before this task is complete.
+The public repair is verified.
+Private live readback and authenticated generation/voting acceptance remain open.
