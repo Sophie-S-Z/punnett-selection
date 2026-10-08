@@ -27,6 +27,7 @@ export async function LabHeader() {
         <nav className="lab-nav" aria-label="Lab sections">
           <Link href="/">Selection</Link>
           <Link href="/specimens">Specimens</Link>
+          <Link href="/discover">Discover</Link>
           {user ? <Link href="/incubator">Incubator</Link> : null}
           {user ? <Link href="/lab/notebook">Lab bench</Link> : null}
         </nav>

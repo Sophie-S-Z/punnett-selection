@@ -35,13 +35,29 @@ Sign in with Google and open `/incubator` to choose a real flora, fauna, or fung
 Pick a random specimen for an unexpected organism.
 Generate funny field notes from its saved facts; a field photo is optional.
 Each caption preserves the common name and scientific taxon.
-Send the completed culture to the selection chamber.
-Select with a click, A, or B.
-Press S to skip.
-Each selection stores opposing votes for two captions from the same image.
+The selection ecosystem shows one field note by default.
+Rate Thrives with T or Extinct with E; press S to skip without writing a vote.
+Each survival rating stores one vote.
+Switch to Paired captions to compare two descriptions from the same culture with A or B.
+Each paired judgment stores two opposing votes atomically.
+Both modes exclude captions you have already rated.
+The fitness readout appears after five total ratings.
 Open `/lab/notebook` to review your saved selections.
 Private bench names also come from the public catalog; personal field notes remain editable.
 The owner runs `docs/flora-fauna-correction.sql` to repair existing public/private content and archive the website test cultures with their votes preserved.
+
+For the expanded ecosystem, the owner runs `docs/ecosystem-rating.sql`, `docs/ecosystem-discovery.sql`, and `docs/ecosystem-seed.sql`, in that order.
+The additive seed provides real Gemini descriptions for all existing catalog organisms.
+Owner-only editorial seed flags prevent starter cultures from consuming the user's daily generation allowance.
+Normal pending and failed user attempts still count toward the ten-culture daily limit.
+
+Open `/discover` after sign-in to propose a new real species.
+The server checks its scientific identity against GBIF and retrieves matching Wikipedia source facts.
+Review the dossier and source links, then culture and release the organism and descriptions together.
+Publication saves prompts, taxonomy key, source revision, and culture in the database.
+The saved proposal URL survives refresh and remains owner-scoped.
+Discovery allows three attempts per day and three culture attempts per proposal, with a one-minute retry cooldown.
+Read `docs/ecosystem-report.md` for implementation and acceptance evidence.
 
 Use `main` for production.
 Keep environment values in `.env.local` and Vercel settings.

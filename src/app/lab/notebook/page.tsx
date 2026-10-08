@@ -33,11 +33,11 @@ export default async function NotebookPage({ searchParams }: { searchParams: Pro
   return <div className="lab-shell"><LabHeader /><main id="main" className="specimen-page">
     <section className="selection-history" aria-labelledby="selection-log-title">
       <p className="eyebrow">Your notebook · newest first</p><h1 id="selection-log-title">Selection log</h1>
-      <p className="intro">Your persisted selections. Each judged pair records one winner and one loser.</p>
+      <p className="intro">Your saved selection pressure. Survival ratings record one field note; paired judgments record one winner and one loser.</p>
       {historyError ? <p className="form-error" role="alert">Your selection log could not be loaded. Reload to try again.</p> : votes.length ? <ol className="specimen-list">{votes.map((vote) => <li className="specimen-card" key={vote.id}>
-        <p className="eyebrow">SPC · {specimenCode(vote.captionId)} · {vote.vote === 1 ? "Selected" : "Not selected"}</p>
+        <p className="eyebrow">SPC · {specimenCode(vote.captionId)} · {vote.vote === 1 ? "Thrives · Selected" : "Extinct · Not selected"}</p>
         <p className="specimen-notes">{vote.text}</p><time className="field-help" dateTime={vote.createdAt}>{new Date(vote.createdAt).toLocaleString("en-US", { timeZone: "America/New_York" })} ET</time>
-      </li>)}</ol> : <p className="chamber-status">No selections recorded yet. Judge a pair in the selection chamber.</p>}
+      </li>)}</ol> : <p className="chamber-status">No selections recorded yet. Rate a field note in the selection ecosystem.</p>}
       <nav className="duel-controls" aria-label="Selection log pages">{votePage > 0 ? <Link className="text-link" href={`/lab/notebook?votesPage=${votePage - 1}`}>Newer selections</Link> : null}{hasMore ? <Link className="text-link" href={`/lab/notebook?votesPage=${votePage + 1}`}>Older selections</Link> : null}<Link className="lab-button" href="/">Return to selection</Link></nav>
     </section>
     <div className="bench-heading"><div><h2>Your lab bench</h2>

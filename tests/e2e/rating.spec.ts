@@ -18,7 +18,7 @@ test("cross-origin selection and anonymous generation submissions are rejected",
 });
 
 test("visitors see the selection chamber and cannot judge real live captions", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?mode=duel");
   const chamber = page.getByRole("region", { name: "Selection chamber", exact: true });
   await expect(chamber).toBeVisible();
   await expect(chamber.getByRole("heading", { name: "Which specimen earns your selection?" })).toBeVisible();
@@ -72,7 +72,7 @@ test.describe("actual authenticated rating acceptance", () => {
   });
 
   test("modified, repeated, and editing keyboard events never submit a selection", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?mode=duel");
     await expect(page.getByRole("button", { name: "Remove gloves", exact: true })).toBeVisible();
     const cards = page.locator(".duel-card");
     test.skip(await cards.count() !== 2, "No real unjudged pair is available for this account.");
@@ -99,7 +99,7 @@ test.describe("actual authenticated rating acceptance", () => {
 
   test("a real selection persists as two opposing history entries after reload", async ({ page }) => {
     test.skip(process.env.PUNNETT_TEST_VOTES !== "1", "Set PUNNETT_TEST_VOTES=1 to authorize a real persisted test selection.");
-    await page.goto("/");
+    await page.goto("/?mode=duel");
     await expect(page.getByRole("button", { name: "Remove gloves", exact: true })).toBeVisible();
     const cards = page.locator(".duel-card");
     test.skip(await cards.count() !== 2, "No real unjudged pair is available for this account.");
@@ -118,7 +118,7 @@ test.describe("actual authenticated rating acceptance", () => {
     await page.reload();
     await expect(page.getByText(winnerText, { exact: true })).toBeVisible();
     await expect(page.getByText(loserText, { exact: true })).toBeVisible();
-    await page.goto("/");
+    await page.goto("/?mode=duel");
     await expect(page.getByRole("button",{name:`Select specimen A: ${winnerText}`,exact:true})).toHaveCount(0);
     await expect(page.getByRole("button",{name:`Select specimen B: ${loserText}`,exact:true})).toHaveCount(0);
   });

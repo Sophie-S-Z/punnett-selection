@@ -1,0 +1,58 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+import { PGlite } from "@electric-sql/pglite";
+
+test("survival RPCs enforce auth, shared judgments, aggregate privacy and stable 500-row pages", async () => {
+  const db = new PGlite();
+  const first = "00110000-0000-4000-8000-000000000001";
+  const second = "00110000-0000-4000-8000-000000000002";
+  try {
+    await db.exec(`create role anon; create role authenticated; create schema auth; create table auth.users(id uuid primary key); create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid; $$;`);
+    await db.exec(await readFile(new URL("../docs/w4-rating.sql", import.meta.url), "utf8"));
+    const migration = await readFile(new URL("../docs/ecosystem-rating.sql", import.meta.url), "utf8");
+    assert.doesNotMatch(migration, /\b(?:create|alter|drop)\s+policy\b/i);
+    await db.exec(migration);
+    await db.exec(migration);
+    await db.query("insert into auth.users values($1),($2)", [first, second]);
+    const image = (await db.query<{ id: string }>("insert into public.punnett_images(owner_id,data_url,mime_type) values($1,'data:image/png;base64,aQ==','image/png') returning id", [first])).rows[0].id;
+    const generation = (await db.query<{ id: string }>("insert into public.punnett_generations(owner_id,image_id,prompt,model,status) values($1,$2,'Facts','test','completed') returning id", [first, image])).rows[0].id;
+    await db.query("insert into public.punnett_captions(generation_id,image_id,content) select $1,$2,'Species (Taxon) — Note ' || n from generate_series(1,1001) n", [generation,image]);
+    type Caption = { id: string; up: number; down: number };
+    type Result = { result: { specimens: Caption[]; hasMore: boolean } };
+    const page = async (offset: number) => (await db.query<Result>("select public.punnett_ecosystem_page($1) result", [offset])).rows[0].result;
+    const a = await page(0), b = await page(500), c = await page(1000), empty = await page(1500);
+    assert.equal(a.specimens.length,500); assert.equal(b.specimens.length,500); assert.equal(c.specimens.length,1);
+    assert.equal(a.hasMore,true); assert.equal(b.hasMore,true); assert.equal(c.hasMore,false); assert.deepEqual(empty,{specimens:[],hasMore:false});
+    assert.equal(new Set([...a.specimens,...b.specimens,...c.specimens].map(row => row.id)).size,1001);
+    assert.deepEqual(await page(0),a);
+    assert.equal(a.specimens[0].up,0);
+    await assert.rejects(db.query("select public.punnett_ecosystem_page(-1)"),{code:"22023"});
+    await assert.rejects(db.query("select public.punnett_rate_specimen($1,1::smallint)",[a.specimens[0].id]),{code:"42501"});
+    await db.query("select set_config('request.jwt.claim.sub',$1,false)",[first]);
+    await db.exec("set role authenticated");
+    await db.query("select public.punnett_rate_specimen($1,1::smallint)",[a.specimens[0].id]);
+    await assert.rejects(db.query("select public.punnett_rate_specimen($1,-1::smallint)",[a.specimens[0].id]),{code:"23505"});
+    await assert.rejects(db.query("select public.punnett_select_vote($1,$2)",[a.specimens[0].id,a.specimens[1].id]),{code:"23505"});
+    await assert.rejects(db.query("select public.punnett_rate_specimen($1,0::smallint)",[a.specimens[1].id]),{code:"22023"});
+    await assert.rejects(db.query("select public.punnett_rate_specimen(null,1::smallint)"),{code:"22023"});
+    const judged = (await db.query<{result:{ids:string[]}}>("select public.punnett_voted_ids(0) result")).rows[0].result.ids;
+    assert.deepEqual(judged,[a.specimens[0].id]);
+    await db.query("select set_config('request.jwt.claim.sub',$1,false)",[second]);
+    await db.query("select public.punnett_rate_specimen($1,-1::smallint)",[a.specimens[0].id]);
+    await db.query("select public.punnett_select_vote($1,$2)",[a.specimens[1].id,a.specimens[2].id]);
+    await assert.rejects(db.query("select public.punnett_rate_specimen($1,1::smallint)",[a.specimens[1].id]),{code:"23505"});
+    assert.equal((await page(0)).specimens[0].up,1); assert.equal((await page(0)).specimens[0].down,1);
+    await assert.rejects(db.query("select owner_id from public.punnett_caption_votes"),{code:"42501"});
+    await db.exec("reset role");
+    const votes = (await db.query<{owner_id:string;caption_id:string;vote:number}>("select owner_id,caption_id,vote from public.punnett_caption_votes")).rows;
+    assert.equal(votes.length,4); assert.equal(votes.filter(row => row.owner_id===first).length,1);
+    await db.query("update public.punnett_generations set status='failed' where id=$1",[generation]);
+    await assert.rejects(db.query("select public.punnett_rate_specimen($1,1::smallint)",[a.specimens[3].id]),{code:"22023"});
+    assert.deepEqual(await page(0),{specimens:[],hasMore:false});
+    await db.exec("set role anon");
+    assert.deepEqual(await page(0),{specimens:[],hasMore:false});
+    await assert.rejects(db.query("select public.punnett_rate_specimen($1,1::smallint)",[a.specimens[0].id]),{code:"42501"});
+    await assert.rejects(db.query("select * from public.punnett_captions"),{code:"42501"});
+  } finally { await db.close(); }
+});

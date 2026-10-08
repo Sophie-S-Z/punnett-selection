@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 
 const origin = process.env.PUNNETT_TEST_URL ?? "http://localhost:3000";
-for (const path of ["/profile", "/lab/notebook"]) {
+for (const path of ["/profile", "/lab/notebook", "/discover"]) {
   const response = await fetch(new URL(path, origin), {
     method: "POST", redirect: "manual",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -21,6 +21,13 @@ for (const [path, body] of [
   ["punnett_select_vote", { winner_id_input: "954a0308-1972-40ba-8e22-8299c57777fd", loser_id_input: "954a0308-1972-40ba-8e22-8299c57777fe" }],
   ["punnett_voted_ids", { offset_input: 0 }],
   ["punnett_vote_history", { offset_input: 0 }],
+  ["punnett_rate_specimen", {caption_id_input:"954a0308-1972-40ba-8e22-8299c57777fd",vote_input:1}],
+  ["punnett_begin_discovery", {prompt_input:"Anonymous discovery must be rejected",model_input:"gemini-test"}],
+  ["punnett_discovery_proposal", {discovery_id_input:"954a0308-1972-40ba-8e22-8299c57777fd"}],
+  ["punnett_prepare_discovery", {discovery_id_input:"954a0308-1972-40ba-8e22-8299c57777fd",label_input:"",notes_input:"",gbif_key_input:1,kingdom_input:"Animalia",wikipedia_url_input:"",revision_input:"1"}],
+  ["punnett_fail_discovery", {discovery_id_input:"954a0308-1972-40ba-8e22-8299c57777fd"}],
+  ["punnett_claim_discovery", {discovery_id_input:"954a0308-1972-40ba-8e22-8299c57777fd"}],
+  ["punnett_publish_discovery", {discovery_id_input:"954a0308-1972-40ba-8e22-8299c57777fd",image_data_url:"",prompt_input:"",model_input:"",captions_input:[]}],
   ["punnett_get_profile", {}],
   ["punnett_save_profile", { first_name_input: "Anonymous", last_name_input: "Rejected", avatar_path_input: null }],
   ["punnett_list_bench", {}],
@@ -40,7 +47,7 @@ const table = await fetch(`${url}/rest/v1/punnett_bench_specimens?select=id`, {
 assert.equal(table.status, 401);
 assert.equal((await table.json()).code, "42501");
 console.log("Anonymous page submissions, private bench table reads, and all profile/bench functions are rejected.");
-for (const name of ["punnett_images", "punnett_generations", "punnett_captions", "punnett_caption_votes"]) {
+for (const name of ["punnett_images", "punnett_generations", "punnett_captions", "punnett_caption_votes", "punnett_discoveries"]) {
   const response = await fetch(`${url}/rest/v1/${name}?select=id&limit=1`, {
     headers: { apikey: key, Authorization: `Bearer ${key}` },
   });

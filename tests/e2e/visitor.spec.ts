@@ -3,12 +3,12 @@ import AxeBuilder from "@axe-core/playwright";
 
 for (const width of [320, 390, 768, 1440]) {
   test(`visitor pages render without overflow or accessibility violations at ${width}px`, async ({ page }) => {
-    // Each case scans two real pages; desktop glass/gradient contrast sampling is slower.
-    test.setTimeout(60_000);
+    // Each case scans three real views; optical surface contrast sampling is slower.
+    test.setTimeout(120_000);
     await page.setViewportSize({ width, height: 1000 });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    for (const path of ["/", "/specimens"]) {
+    for (const path of ["/", "/?mode=duel", "/specimens"]) {
       const response = await page.goto(path);
       expect(response?.status()).toBe(200);
       await expect(page.locator("h1")).toBeVisible();
@@ -21,10 +21,10 @@ for (const width of [320, 390, 768, 1440]) {
 }
 
 test("visitors cannot open protected routes or private photos", async ({ page }) => {
-  for (const path of ["/profile", "/profile/photo", "/lab/notebook", "/incubator"]) {
+  for (const path of ["/profile", "/profile/photo", "/lab/notebook", "/incubator", "/discover"]) {
     await page.goto(path);
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.locator("h1")).toContainText("Two specimens.");
+    await expect(page.locator("h1")).toContainText("Nature is weird.");
     await expect(page.getByRole("button", { name: "Put on lab gloves", exact: true }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Profile", exact: true })).toHaveCount(0);
   }

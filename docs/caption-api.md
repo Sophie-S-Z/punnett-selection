@@ -75,3 +75,25 @@ The new tables and RPCs must be installed before a live generation can succeed.
 The owner must configure and verify RLS separately under AGENTS.md R1.
 No service-role credential is used.
 Owner configuration and a successful authenticated live generation must be verified before claiming end-to-end completion.
+## Ecosystem discovery extension
+
+`/discover` is authenticated on the server.
+The server proposes one new species through the same configured Gemini REST endpoint with structured JSON fields `commonName` and `scientificName`.
+The request prompt and actual model are persisted before the provider call.
+Discovery is user-initiated and limited to three attempts per 24 hours.
+
+The server verifies `https://api.gbif.org/v1/species/match?name=<encoded binomial>&strict=true`.
+It requires an exact accepted SPECIES match, confidence at least 95, matching canonical name, and Animalia, Plantae, or Fungi.
+It retrieves `https://en.wikipedia.org/api/rest_v1/page/summary/<encoded binomial>`.
+Only a standard article summary that contains the same binomial is accepted.
+The source excerpt, URL, and revision are saved for the user to review.
+No model-supplied URLs are fetched.
+Scientific identity and provenance checks do not establish the truth of every source statement.
+
+On user publication, the server re-reads the saved owner proposal, reserves a bounded culture attempt, and generates four descriptions from the saved excerpt.
+One database transaction saves the catalog organism, culture reference, generation prompt, actual captions, and publication linkage.
+Repeated publication returns the original culture instead of duplicating records.
+Wikipedia excerpts are attributed with a CC BY-SA 4.0 link.
+The public source RPC excludes owner identities and unpublished proposals.
+
+References: [GBIF species API](https://techdocs.gbif.org/en/openapi/v1/species), [Wikimedia REST API](https://www.mediawiki.org/wiki/Wikimedia_REST_API).

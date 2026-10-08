@@ -194,3 +194,20 @@ The sea cucumber culture uses image `44bbda39-860a-4631-b51d-b33718d3ebd5`.
 The owner confirmed the corrected immutable deployment's exact callback is allowlisted.
 Private bench correction is covered by the exact SQL integration test but still requires signed-in live readback.
 No RLS policy statements were created or changed.
+
+## Ecosystem extension schema contract (2026-10-08)
+
+`ecosystem-rating.sql` adds narrow survival voting and public aggregate-page functions.
+Each survival vote writes one existing `punnett_caption_votes` row with `auth.uid()` and -1 or +1.
+The original paired voting function and shared unique constraint remain unchanged.
+Only captions from completed cultures are eligible or counted.
+The aggregate response exposes caption identity, image identity, text, and up/down counts; it exposes no owner IDs.
+Stable pages contain at most 500 rows.
+
+`ecosystem-discovery.sql` adds private `punnett_discoveries` rows with saved prompts, model, source excerpt, taxonomy key, source revision, status, and published catalog/culture linkage.
+Direct table access is revoked.
+RPCs derive ownership from `auth.uid()` and restrict proposal reads and publication to that owner.
+Catalog insertion and completed generation creation commit atomically.
+Publication retries reuse the saved culture.
+The owner enables RLS on the new table; no policies are created or changed.
+Live owner application is not inferred from isolated PostgreSQL test success.

@@ -23,4 +23,6 @@
   --surface-shadow: 0 20px 64px color-mix(in srgb, var(--bg) 70%, transparent);
   --radius-panel: 24px;
   --radius-control: 12px;
+  --glass-refracted: linear-gradient(145deg, color-mix(in srgb, var(--glow-soft) 13%, transparent), transparent 28%, color-mix(in srgb, var(--mutant) 7%, transparent) 82%);
+  --glass-inner-edge: inset 0 1px 0 color-mix(in srgb, var(--glow-soft) 24%, transparent), inset 1px 0 0 color-mix(in srgb, var(--glow-soft) 9%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--mutant) 12%, transparent);
 }
