@@ -3,6 +3,8 @@ import AxeBuilder from "@axe-core/playwright";
 
 for (const width of [320, 390, 768, 1440]) {
   test(`visitor pages render without overflow or accessibility violations at ${width}px`, async ({ page }) => {
+    // Each case scans two real pages; desktop glass/gradient contrast sampling is slower.
+    test.setTimeout(60_000);
     await page.setViewportSize({ width, height: 1000 });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
@@ -22,7 +24,8 @@ test("visitors cannot open protected routes or private photos", async ({ page })
   for (const path of ["/profile", "/profile/photo", "/lab/notebook", "/incubator"]) {
     await page.goto(path);
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.getByRole("heading", { name: "Put on your lab gloves." })).toBeVisible();
+    await expect(page.locator("h1")).toContainText("Two specimens.");
+    await expect(page.getByRole("button", { name: "Put on lab gloves", exact: true }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Profile", exact: true })).toHaveCount(0);
   }
 });

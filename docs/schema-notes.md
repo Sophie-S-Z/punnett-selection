@@ -68,3 +68,113 @@ Actual signed-in add, copy, edit, reload, and delete tests passed.
 All 11 shared rows remained identical to the baseline after those tests.
 The owner saved the immutable deployment's exact callback URL and confirmed the deployed signed-in test passed.
 No policies were created or modified.
+
+## W4 preflight (2026-10-08)
+
+Read-only REST probes used the configured URL and anon key from ignored `.env.local`.
+Each probe requested `select=*&limit=1`.
+No row values or credentials were printed.
+
+| Table | HTTP | Result |
+| --- | --- | --- |
+| `captions` | 404 | `PGRST205`: table not found in schema cache |
+| `caption_votes` | 404 | `PGRST205`: table not found in schema cache |
+| `images` | 404 | `PGRST205`: table not found in schema cache |
+| `caption_requests` | 404 | `PGRST205`: table not found in schema cache |
+
+The REST OpenAPI request returned HTTP 401.
+These results do not establish whether the tables are absent or unexposed.
+The vote columns, values, audit fields, foreign keys, and unique constraints remain unverified.
+The owner must confirm the intended course database and provide the schema findings.
+`docs/w4-preflight.sql` contains read-only column, constraint, and RLS-flag diagnostics.
+The caption API documentation is absent from this checkout.
+No API endpoints, payloads, prompt storage, or generation persistence have been assumed.
+No RLS settings or policies were changed.
+
+## W4 intended app-owned contract (2026-10-08)
+
+The owner selected new app-owned tables in the existing Supabase project.
+The owner selected Gemini for caption generation instead of the course caption API.
+The authoritative proposed schema is `docs/w4-rating.sql`.
+This contract is authored, not verified as deployed until the owner runs that file and diagnostics pass.
+No course table is modified by this migration.
+The migration creates no policies.
+The owner-run migration enables RLS on its four new tables and revokes direct table access from public, anonymous, and authenticated API roles.
+Narrow security-definer functions use an empty search path and explicit schema qualification.
+Private functions derive ownership from `auth.uid()` and reject unauthenticated callers.
+Generation creation permits at most ten attempts per owner over a rolling 24-hour window.
+Pending, completed, and failed attempts all count.
+A per-owner transaction advisory lock prevents concurrent requests from exceeding the quota.
+Quota exhaustion returns `22023` with the message prefix `daily_limit`.
+
+### Tables
+
+| Table | Contract |
+| --- | --- |
+| `punnett_images` | UUID id, authenticated owner id, image data URL, MIME type, creation timestamp. Raster JPEG, PNG, WebP, or GIF only. Decoded upload limit: 2 MiB. |
+| `punnett_generations` | UUID id, unique image id, owner id, exact generation prompt, model, pending/completed/failed status, creation and completion timestamps. |
+| `punnett_captions` | UUID id, generation id, image id, caption content, creation timestamp. Completion atomically publishes 2 to 10 unique caption texts. |
+| `punnett_caption_votes` | UUID id, owner id, caption id, smallint vote restricted to +1/-1, creation timestamp. Unique constraint on `(owner_id, caption_id)`. |
+
+The image payload is stored with the new image row to avoid requiring a new Storage access policy.
+Profile photographs remain in their existing private Storage bucket.
+Only completed generations expose images and captions through public read functions.
+Generation prompts and owner ids are not included in public catalog responses.
+
+### RPC names and payloads
+
+| RPC | Inputs | Output and access |
+| --- | --- | --- |
+| `punnett_create_generation` | `image_data_url` text, `prompt_input` text, `model_input` text | `{id, image_id}`. Authenticated owner. Saves the prompt before the model call. |
+| `punnett_complete_generation` | `generation_id_input` UUID, `captions_input` JSON array of strings | `{id, image_id, captions: [{id, imageId, text}]}`. Pending generation owner. Inserts captions and completes status in one transaction. |
+| `punnett_fail_generation` | `generation_id_input` UUID | Void. Marks only the caller's pending generation failed. |
+| `punnett_caption_page` | `offset_input` integer, default 0 | `{captions: [{id, imageId, text}], hasMore}`. Public. Completed captions only. |
+| `punnett_read_image` | `image_id_input` UUID | Text data URL, or null. Public. Completed image only. |
+| `punnett_voted_ids` | `offset_input` integer, default 0 | `{ids: [UUID], hasMore}`. Caller only. |
+| `punnett_vote_history` | `offset_input` integer, default 0 | `{votes: [{id, captionId, imageId, text, vote, createdAt}], hasMore}`. Caller only. Newest first. |
+| `punnett_select_vote` | `winner_id_input` UUID, `loser_id_input` UUID | `{winner_id, loser_id}`. Authenticated. Both published captions must share an image and differ. Inserts +1 and -1 atomically. |
+
+All three page functions return at most 500 rows.
+Offsets must be integers from 0 through 1,000,000.
+Ordering includes UUID id as a deterministic tiebreaker.
+Duplicate selection fails with PostgreSQL `23505` and writes neither row.
+Invalid input fails with `22023`; an unauthenticated private function fails with `42501` when execution reaches the function.
+Anonymous private RPC calls are also denied at the privilege boundary.
+
+### Required live verification after owner setup
+
+Confirm all four new tables exist and report RLS enabled.
+Confirm direct anonymous and authenticated table operations are denied.
+Confirm public catalog and completed-image reads work without login.
+Confirm private RPCs reject anonymous users and another user's generation.
+Confirm completion persists the prompt and real generated captions.
+Confirm selection writes exactly two opposing votes and duplicate retries write neither.
+Confirm vote history and judged-id reads contain only the current user's votes.
+Verify first, middle, last, and partial pages against seeded owner-authorized test data.
+Do not mark these live checks complete from source inspection alone.
+
+## W4 live verification (2026-10-08)
+
+The owner ran `docs/w4-rating.sql` successfully in the existing Supabase project.
+The owner confirmed all four new tables report RLS enabled.
+The public catalog RPC returned HTTP 200 after setup.
+Anonymous creation, vote, and vote-history RPC requests returned HTTP 401 with PostgreSQL code `42501`.
+The exact migration also passed six isolated PostgreSQL integration tests in PGlite.
+Those tests verify direct table denials, caller ownership, private pending images, atomic completion and voting, duplicate rollback, quota enforcement, and 500-row pagination.
+
+The parent agent found an actual signed-in Google session in the local app through the browser UI.
+Gemini configuration was completed.
+A real UI generation returned four captions for an actual image captured from the app.
+The generation used real Gemini output and persisted a completed culture.
+An initial Gemini REST enum error was corrected to `APPLICATION_JSON` and covered by a red/green regression test.
+An actual paired selection created two new persisted vote rows.
+Both selections appeared in the user's history after reload.
+The next pair excluded the judged captions.
+The public catalog now contains a real pair for visitor verification.
+
+These signed-in live findings were reported by the parent agent.
+No authenticated browser session was exported by the verification agent.
+The generation action sends the exact constructed model prompt to the creation RPC.
+The isolated PostgreSQL test verifies that the RPC persists the supplied prompt.
+Prompt contents were not independently read back from the live database.
+Deployment-specific public and signed-in acceptance remains a separate check.

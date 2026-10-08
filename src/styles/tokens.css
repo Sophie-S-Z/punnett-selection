@@ -15,4 +15,12 @@
   --danger: #F09595;
   --glow-shadow: 0 0 0 1px rgba(93,202,165,.35), 0 0 24px rgba(93,202,165,.18);
   --radius: 10px;
+  /* Optical surfaces reuse the lab palette so one source controls every hue. */
+  --glass: color-mix(in srgb, var(--surface) 88%, transparent);
+  --glass-edge: color-mix(in srgb, var(--glow-soft) 24%, var(--border));
+  --glass-highlight: color-mix(in srgb, var(--glow-soft) 10%, transparent);
+  --hologram: linear-gradient(125deg, var(--glow-soft), var(--glow) 48%, var(--mutant));
+  --surface-shadow: 0 20px 64px color-mix(in srgb, var(--bg) 70%, transparent);
+  --radius-panel: 24px;
+  --radius-control: 12px;
 }

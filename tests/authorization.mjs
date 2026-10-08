@@ -15,6 +15,12 @@ const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 assert.ok(url && key, "Load the existing Supabase environment before testing.");
 for (const [path, body] of [
+  ["punnett_create_generation", { image_data_url: "", prompt_input: "", model_input: "" }],
+  ["punnett_complete_generation", { generation_id_input: "954a0308-1972-40ba-8e22-8299c57777fd", captions_input: [] }],
+  ["punnett_fail_generation", { generation_id_input: "954a0308-1972-40ba-8e22-8299c57777fd" }],
+  ["punnett_select_vote", { winner_id_input: "954a0308-1972-40ba-8e22-8299c57777fd", loser_id_input: "954a0308-1972-40ba-8e22-8299c57777fe" }],
+  ["punnett_voted_ids", { offset_input: 0 }],
+  ["punnett_vote_history", { offset_input: 0 }],
   ["punnett_get_profile", {}],
   ["punnett_save_profile", { first_name_input: "Anonymous", last_name_input: "Rejected", avatar_path_input: null }],
   ["punnett_list_bench", {}],
@@ -34,3 +40,19 @@ const table = await fetch(`${url}/rest/v1/punnett_bench_specimens?select=id`, {
 assert.equal(table.status, 401);
 assert.equal((await table.json()).code, "42501");
 console.log("Anonymous page submissions, private bench table reads, and all profile/bench functions are rejected.");
+for (const name of ["punnett_images", "punnett_generations", "punnett_captions", "punnett_caption_votes"]) {
+  const response = await fetch(`${url}/rest/v1/${name}?select=id&limit=1`, {
+    headers: { apikey: key, Authorization: `Bearer ${key}` },
+  });
+  assert.equal(response.status, 401);
+  assert.equal((await response.json()).code, "42501");
+}
+const catalog = await fetch(`${url}/rest/v1/rpc/punnett_caption_page`, {
+  method: "POST", headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+  body: JSON.stringify({ offset_input: 0 }),
+});
+assert.equal(catalog.status, 200);
+const publicPage = await catalog.json();
+assert.ok(Array.isArray(publicPage.captions));
+assert.equal(typeof publicPage.hasMore, "boolean");
+console.log("Public caption RPC works; anonymous rating mutations, vote history, and direct rating-table access are rejected.");
