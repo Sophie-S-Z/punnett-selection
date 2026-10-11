@@ -12,5 +12,5 @@ test("reduced motion keeps the lab static and keyboard navigation usable", async
     document.getAnimations().filter((animation) => animation.playState === "running").length,
   );
   expect(activeAnimations).toBe(0);
-  await expect(page.getByRole("button", { name: "Put on lab gloves" }).first()).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Sign in with Google" }).first()).toBeEnabled();
 });

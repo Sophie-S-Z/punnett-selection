@@ -20,16 +20,14 @@ export async function LabHeader() {
         </span>
         <span>
           Punnett
-          <span className="brand-subtitle">Selection</span>
+          <span className="brand-subtitle">AI captions</span>
         </span>
       </Link>
       <div className="lab-header-tools">
         <nav className="lab-nav" aria-label="Lab sections">
-          <Link href="/">Selection</Link>
-          <Link href="/specimens">Specimens</Link>
-          <Link href="/discover">Discover</Link>
-          {user ? <Link href="/incubator">Incubator</Link> : null}
-          {user ? <Link href="/lab/notebook">Lab bench</Link> : null}
+          <Link href="/">Create</Link>
+          <Link href="/?mode=duel">Vote</Link>
+          {user ? <Link href="/lab/notebook">History</Link> : null}
         </nav>
         <AuthControls signedIn={Boolean(user)} />
         {user ? <ProfileBadge name={profile?.first_name?.trim() || "Your profile"} photo={profile?.avatar_path ? `/profile/photo?v=${encodeURIComponent(profile.updated_at)}` : null} /> : null}

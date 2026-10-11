@@ -24,8 +24,8 @@ test("visitors cannot open protected routes or private photos", async ({ page })
   for (const path of ["/profile", "/profile/photo", "/lab/notebook", "/incubator", "/discover"]) {
     await page.goto(path);
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.locator("h1")).toContainText("Nature is weird.");
-    await expect(page.getByRole("button", { name: "Put on lab gloves", exact: true }).first()).toBeVisible();
+    await expect(page.locator("h1")).toContainText("Your image.");
+    await expect(page.getByRole("button", { name: "Sign in with Google", exact: true }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Profile", exact: true })).toHaveCount(0);
   }
 });
@@ -45,7 +45,7 @@ test("failed OAuth callback offers a retry instead of failing the page", async (
 test("Google sign-in requests the exact callback on the current app origin", async ({ page, baseURL }) => {
   await page.goto("/");
   const authorization = page.waitForRequest((request) => request.url().includes(".supabase.co/auth/v1/authorize"));
-  await page.getByRole("button", { name: "Put on lab gloves" }).first().click();
+  await page.getByRole("button", { name: "Sign in with Google" }).first().click();
   const request = await authorization;
   const url = new URL(request.url());
   expect(url.searchParams.get("provider")).toBe("google");

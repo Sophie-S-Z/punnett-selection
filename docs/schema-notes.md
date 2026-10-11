@@ -219,3 +219,17 @@ Live anonymous survival/discovery mutation RPC calls were rejected, and private 
 Editorial starter cultures have an owner-only `is_catalog_seed` flag; quota calculations exclude those cultures but count pending and failed user attempts.
 The exact seed migration's isolated PostgreSQL test verifies idempotence, preservation of votes, and ten user attempts after eleven starter cultures.
 Signed-in live publication and owner-specific readback are still separate pending acceptance checks.
+
+## Caption-first TA revision (2026-10-10)
+
+The primary UI uses existing app-owned image/caption/vote RPCs for general humor.
+`punnett_vote_history(offset_input)` already returns imageId, captionId, text, vote, and createdAt.
+History renders `/media/{imageId}` for each selected or rejected caption without a migration.
+`punnett_read_image(image_id_input)` exposes completed images through the existing media route.
+The generation RPC accepts an image and prompt; it does not require a catalog specimen or taxon-prefixed captions.
+The full prompt stays below the existing 2,000-character database limit for 1,000 characters of tone/context.
+The primary server action requires a valid session and real image bytes before contacting Gemini.
+Legacy discovery continues to use source-bound scientific validation.
+Existing private collections are preserved at `/lab/notebook/collection` with server authentication and owner RPCs.
+Live anonymous security checks passed on 2026-10-10. No schema or RLS policy changes are part of this revision.
+The official provider contract was rechecked: https://ai.google.dev/api/generate-content.

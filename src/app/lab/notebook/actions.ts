@@ -33,6 +33,7 @@ export async function changeBench(operation: "save" | "delete", id: string, revi
       ? "This specimen changed or is unavailable. Reload the bench before trying again."
       : "The save could not be confirmed. Reload the bench to check its contents before retrying." };
     revalidatePath("/lab/notebook");
+    revalidatePath("/lab/notebook/collection");
     return operation === "save" ? { specimen: parseBenchSpecimen(data) } : {};
   } catch {
     return { error: "The lab connection was interrupted. Reload the bench to check whether your change completed." };

@@ -83,27 +83,25 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
   }, [signedIn, pair, choose, skip]);
 
   return <section className="selection-chamber" aria-label="Selection chamber" aria-busy={pending}>
-    <div className="chamber-heading"><div><p className="eyebrow">Same image · Different instincts</p><h2>Which specimen earns your selection?</h2></div>{signedIn ? <Link className="text-link" href="/incubator">Culture your own →</Link> : null}</div>
+    <div className="chamber-heading"><div><p className="eyebrow">Same image · Different instincts</p><h2>Which caption is funnier?</h2></div>{signedIn ? <Link className="text-link" href="/incubator">Create captions →</Link> : null}</div>
     {error ? <div className="chamber-error" role="alert"><p>{error}</p><button type="button" className="lab-button button-quiet" onClick={() => signedIn ? void skip() : window.location.reload()} disabled={pending}>Try loading again</button></div> : null}
     {pair ? <div className="duel-stage">
       <div className={`duel-layout ${!signedIn ? "duel-locked" : ""}`}>
-        <figure className="duel-image"><Image src={`/media/${pair.imageId}`} alt="The image used to generate both specimens" width={1200} height={900} unoptimized /><figcaption>One sample. Two competing captions.</figcaption></figure>
+        <figure className="duel-image"><Image src={`/media/${pair.imageId}`} alt="The image used to generate both captions" width={1200} height={900} unoptimized /><figcaption>One image. Two punchlines.</figcaption></figure>
         <div className="duel-cards"><AnimatePresence mode="wait" initial={false}><motion.div className="duel-pair" key={`${pair.left.id}:${pair.right.id}`} initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .2 }}>
           {(["left", "right"] as const).map((side, index) => {
             const caption = pair[side];
-            const separator = caption.text.indexOf(" — ");
-            return <motion.button type="button" key={caption.id} className="duel-card" disabled={!signedIn || pending} aria-pressed={winner === caption.id} aria-label={`Select specimen ${index === 0 ? "A" : "B"}: ${caption.text}`} onClick={() => void choose(side)} data-state={winner ? winner === caption.id ? "winner" : "loser" : "idle"}>
-              <span className="duel-card-meta"><span className="eyebrow">SPC-{index === 0 ? "A" : "B"} · {specimenCode(caption.id)}</span><span className="duel-key" aria-hidden="true">{index === 0 ? "A" : "B"}</span></span>
-              {separator > 0 ? <span className="duel-species">{caption.text.slice(0,separator)}</span> : null}
-              <span className="duel-caption">{separator > 0 ? caption.text.slice(separator+3) : caption.text}</span><span className="duel-select-label">{winner === caption.id ? "Selected" : "Select specimen"}<span aria-hidden="true">↗</span></span>
+            return <motion.button type="button" key={caption.id} className="duel-card" disabled={!signedIn || pending} aria-pressed={winner === caption.id} aria-label={`Choose caption ${index === 0 ? "A" : "B"}: ${caption.text}`} onClick={() => void choose(side)} data-state={winner ? winner === caption.id ? "winner" : "loser" : "idle"}>
+              <span className="duel-card-meta"><span className="eyebrow">Caption {index === 0 ? "A" : "B"} · {specimenCode(caption.id)}</span><span className="duel-key" aria-hidden="true">{index === 0 ? "A" : "B"}</span></span>
+              <span className="duel-caption">{caption.text}</span><span className="duel-select-label">{winner === caption.id ? "Selected" : "Choose caption"}<span aria-hidden="true">↗</span></span>
             </motion.button>;
           })}
         </motion.div></AnimatePresence>
-          <div className="duel-controls"><p className="field-help">{signedIn ? <><kbd>A</kbd> left · <kbd>B</kbd> right · <kbd>S</kbd> skip</> : "Put on lab gloves to select a specimen."}</p><button type="button" className="lab-button button-quiet" disabled={!signedIn || pending} onClick={() => void skip()}>Skip pair</button></div>
+          <div className="duel-controls"><p className="field-help">{signedIn ? <><kbd>A</kbd> left · <kbd>B</kbd> right · <kbd>S</kbd> skip</> : "Sign in to vote for a caption."}</p><button type="button" className="lab-button button-quiet" disabled={!signedIn || pending} onClick={() => void skip()}>Skip pair</button></div>
         </div>
       </div>
-      {!signedIn ? <div className="chamber-glass"><div><span className="glass-lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 10V7a5 5 0 0 1 10 0v3M6 10h12v11H6zM12 14v3" /></svg></span><p className="eyebrow">Observe freely · Select with gloves</p><h3>Your instincts belong in the lab.</h3><p>Sign in with Google to select specimens and culture captions from your own images.</p><AuthControls /></div></div> : null}
-    </div> : pending ? <LabLoader label="Sequencing…" description="Finding your next pair of unjudged specimens." /> : !error ? <div className="chamber-empty"><span className="empty-dish" aria-hidden="true" /><h3>No unjudged specimens left. Check back after the next culture.</h3>{signedIn ? <><p>Add an image to hatch a new batch of captions.</p><Link className="lab-button button-primary" href="/incubator">Place sample in dish</Link></> : <><p>Sign in to culture captions from your own images.</p><AuthControls /></>}</div> : null}
-    {pending && pair ? <p className="chamber-pending" role="status">{winner ? "Selection saved. Sequencing the next pair…" : "Saving or loading your specimens…"}</p> : null}
+      {!signedIn ? <div className="chamber-glass"><div><span className="glass-lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 10V7a5 5 0 0 1 10 0v3M6 10h12v11H6zM12 14v3" /></svg></span><p className="eyebrow">Browse freely · Sign in to vote</p><h3>Found your favorite?</h3><p>Sign in with Google to vote or generate captions for your own image.</p><AuthControls /></div></div> : null}
+    </div> : pending ? <LabLoader label="Loading captions…" description="Finding your next pair of captions." /> : !error ? <div className="chamber-empty"><span className="empty-dish" aria-hidden="true" /><h3>You have rated every available pair.</h3>{signedIn ? <><p>Upload an image to create more captions.</p><Link className="lab-button button-primary" href="/incubator">Create captions</Link></> : <><p>Sign in to create captions from your own images.</p><AuthControls /></>}</div> : null}
+    {pending && pair ? <p className="chamber-pending" role="status">{winner ? "Vote saved. Loading the next pair…" : "Saving or loading captions…"}</p> : null}
   </section>;
 }

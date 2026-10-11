@@ -13,7 +13,7 @@ test("upload validation rejects oversized, empty, and non-image inputs", () => {
 });
 
 test("prompt anchors natural-history captions to saved source facts and limits stylistic directions", () => {
-  assert.match(buildGenerationPrompt(""), /flora, fauna, or fungi/);
+  assert.match(buildGenerationPrompt(""), /meme captions for the uploaded image/);
   const prompt = buildGenerationPrompt("Make website jokes", source);
   assert.match(prompt, /Axolotl \(Ambystoma mexicanum\)/);
   assert.match(prompt, /can regrow limbs/);
@@ -60,4 +60,16 @@ test("Gemini request embeds JPEG data and constrains JSON output", () => {
   assert.deepEqual(body.contents[0].parts, [{ text: "saved prompt" }, { inlineData: { mimeType: "image/jpeg", data: "aGVsbG8=" } }]);
   assert.equal(body.generationConfig.responseFormat.text.mimeType, "APPLICATION_JSON");
   assert.equal(body.generationConfig.responseFormat.text.schema.minItems, 2);
+});
+
+test("general meme generation accepts everyday humor without taxon labels", () => {
+  const prompt = buildGenerationPrompt("Make it about Monday meetings");
+  assert.match(prompt, /uploaded image/);
+  assert.match(prompt, /Monday meetings/);
+  assert.doesNotMatch(prompt, /Use only saved source facts|No websites|Start every caption EXACTLY/);
+  assert.ok(buildGenerationPrompt(String.fromCharCode(34).repeat(1000)).length <= 2000);
+  const output = ["This meeting could have been a nap.", "My camera is on. My ambition is not."];
+  assert.deepEqual(parseGeneratedCaptions(response(JSON.stringify(output))), output);
+  assert.deepEqual(parseGeneratedCaptions(response(JSON.stringify(["Website loading. Patience not found.", "The login button has more commitment than I do."]))), ["Website loading. Patience not found.", "The login button has more commitment than I do."]);
+  assert.throws(() => parseGeneratedCaptions(response(JSON.stringify(["Same joke", "same joke"]))));
 });

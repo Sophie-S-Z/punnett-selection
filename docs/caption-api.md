@@ -46,15 +46,15 @@ GIF input uses its first frame.
 Decoded images are limited to 40 million pixels. Stored JPEG data is limited to 2 MiB.
 The saved image is the same JPEG that Gemini receives.
 
-The prompt now targets real flora, fauna, and fungi from the live public specimen catalog.
-The authenticated action reads the submitted specimenId from lab_specimens; it never trusts client-supplied names or facts.
-Every caption starts with the saved common name and scientific taxon, followed by an em dash and a funny natural-history description.
-Optional direction adjusts tone only, up to 300 characters; it cannot change species or override the source facts.
-Unrelated website screenshots and instructions cannot determine the subject.
-Images are optional; without a photo, the action renders an explicitly labelled specimen fact card from the saved source name.
-The generated fact card is not presented as a photograph of the organism.
-Malformed labels, mixed taxa, empty descriptions, duplicate text, and obvious website/app topics are rejected before caption completion.
-Biological truth is anchored to source notes and bounded model instructions; this is not a claim of automated scientific fact verification.
+The primary upload flow requires a real uploaded image and accepts any subject.
+The prompt requests four short, original humor/meme captions grounded in visible image details.
+Optional tone/context is limited to 1,000 characters and stored in the exact prompt.
+The primary parser validates 2–6 nonblank, distinct strings of at most 500 characters without taxon prefixes.
+Catalog-specific source constraints apply only to the historical discovery extension.
+The provider's 429 response produces a recoverable quota message and marks the pending generation failed.
+Results, voting, and history show the saved image beside the caption.
+Copy and PNG meme download run in the browser using the existing saved image.
+
 The full exact prompt and model identifier are stored with the generation request before the provider call.
 
 The action calls these app-owned RPCs using the authenticated anon client:
