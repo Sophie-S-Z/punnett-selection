@@ -45,3 +45,11 @@ Chrome production acceptance completed with 17 passed and 3 skipped authenticate
 All tested widths (320, 390, 768, 1440) passed overflow and WCAG A/AA scans.
 Live anonymous Supabase authorization checks passed.
 Vercel project settings were read before deploy: password protection, SSO protection, and trusted IP restrictions were all disabled.
+
+## Deployment evidence
+
+Initial restructuring source: 7feda701f645868f8cd4b022e57930838fcd36cc.
+Vercel deployment dpl_DaFa59GQrCuanNPLgZRJpdnx6bYS reached Ready and aliased https://punnett-selection.vercel.app/.
+Initial immutable URL: https://punnett-selection-c5ed400bs-sophie-zhangs-projects.vercel.app/.
+Final visual review also identified and fixed inherited grid wrapping in the Create/Vote tabs.
+Final public browser acceptance is performed after publishing the polish.

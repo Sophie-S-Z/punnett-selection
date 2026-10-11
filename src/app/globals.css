@@ -541,3 +541,7 @@ h1, h2, h3, .brand { font-family: var(--font-space), var(--font-plex), sans-seri
 @media (max-width: 700px) { .caption-welcome, .caption-history-grid { grid-template-columns: minmax(0, 1fr); } .caption-welcome { gap: 24px; } .caption-welcome aside { border-left: 0; border-top: 1px solid var(--border); padding: 18px 0 0; } .caption-steps { font-size: 10px; gap: 6px; } }
 .caption-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .caption-actions .lab-button { font-size: 12px; }
+.selection-modes.caption-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(100%, 520px); }
+.selection-modes.caption-tools > a { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 18px; font-size: 14px; }
+.selection-modes.caption-tools .mode-hint { font-size: 11px; }
+@media (max-width: 480px) { .selection-modes.caption-tools > a { padding: 12px; font-size: 12px; } .selection-modes.caption-tools .mode-hint { font-size: 10px; } }

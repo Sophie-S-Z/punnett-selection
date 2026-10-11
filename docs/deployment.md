@@ -115,3 +115,18 @@ The live signed-in survival, discovery publication, refresh persistence, and pri
 Browser automation timed out on semantic and accessibility clicks; the owner was asked to sign in manually.
 Keep deployment protection off.
 Later documentation-only commits do not change this recorded source deployment.
+
+## Caption-first TA revision (2026-10-10)
+
+Initial code commit: 7feda701f645868f8cd4b022e57930838fcd36cc.
+Deployment dpl_DaFa59GQrCuanNPLgZRJpdnx6bYS reached Ready with that exact source.
+Public site: https://punnett-selection.vercel.app/.
+Initial immutable URL: https://punnett-selection-c5ed400bs-sophie-zhangs-projects.vercel.app/.
+Lint, TypeScript, 55 tests, and production build passed before push.
+Production browser acceptance passed 17 tests; three signed-in checks were skipped without a real Google session.
+Anonymous live Supabase access tests passed.
+The revised upload flow accepts general images and meme captions.
+Generation results and vote history include saved images. Copy and PNG meme export controls are included.
+A following visual-polish commit fixes Create/Vote tab wrapping.
+Signed-in generation, reload persistence, export controls, and actual phone camera acceptance still require the owner.
+Vercel project protection settings were verified off. Keep deployment protection off.
