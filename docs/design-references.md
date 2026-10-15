@@ -9,3 +9,13 @@ Reviewed on 2026-10-15. The caption studio uses the existing Next.js, Tailwind v
 - Animos: https://animos.app/. Reviewed as a showcase-template reference; no reusable source or license was available through the public page, so no template code or media was copied.
 
 The design uses real Supabase image/caption records. Tone controls form part of the exact persisted generation prompt. Search and verdict filters apply to the loaded history page and explicitly display their scope. No fabricated counters, testimonials, sample captions, or generated progress percentages are used.
+
+## Editorial redesign — 2026-10-15
+
+The user requested a new visual theme, superseding the earlier lab palette. The new system pairs warm charcoal, coral, cream paper, and a restrained lavender accent. All component colors resolve through CSS tokens. The original quotation-eye caption bubble is shared by the header, SVG browser icon, 48px ICO fallback, and 180px Apple icon.
+
+- https://www.awwwards.com/ — reviewed its oversized typographic hierarchy, generous spacing, and project-led compositions. These informed the cover hierarchy rather than a copied template.
+- https://recent.design/ — reviewed its spare navigation, compact filters, and branding/interface curation. Much of its media did not load in the browser.
+- https://dribbble.com/shots/popular/web-design — the public browser page presented a human-verification wall. No verification was attempted and no shot artwork was copied.
+
+The collage artwork, logo, color system, and layout are original code. Existing free Motion interactions and accessible native upload/radio patterns remain; no paid assets, new packages, remote artwork, fake testimonials, or simulated media were added. Old laboratory and optical-surface CSS was removed rather than stacking another theme over it. Global navigation now identifies the active tool, including caption comparisons and history subpages.

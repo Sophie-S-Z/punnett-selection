@@ -11,8 +11,8 @@ export function AnnotatedText({ children }: { children: React.ReactNode }) {
 export function UploadIllustration() {
   const reduce = useReducedMotion();
   return <motion.div className="upload-illustration" aria-hidden="true" initial="rest" whileHover={reduce ? undefined : "hover"}>
-    <span className="upload-grid" />
+    <span className="upload-grid" /><span className="upload-sticker">MAKE IT<br />FUNNY ↗</span>
     <motion.span className="upload-paper upload-paper-back" variants={{ rest: { rotate: -8, x: -12 }, hover: { rotate: -12, x: -22 } }} transition={{ duration: .2 }} />
-    <motion.span className="upload-paper upload-paper-front" variants={{ rest: { y: 0 }, hover: { y: -8, rotate: 3 } }} transition={{ type: "spring", stiffness: 300, damping: 24 }}><svg viewBox="0 0 48 48" fill="none"><rect x="7" y="8" width="34" height="31" rx="3" /><circle cx="17" cy="18" r="3" /><path d="m8 32 10-9 9 9 6-6 8 8M24 41v-9m-4 4 4-4 4 4" /></svg><span>YOUR IMAGE HERE</span></motion.span>
+    <motion.span className="upload-paper upload-paper-front" variants={{ rest: { y: 0 }, hover: { y: -8, rotate: 3 } }} transition={{ type: "spring", stiffness: 300, damping: 24 }}><svg viewBox="0 0 48 48" fill="none"><rect x="7" y="8" width="34" height="31" rx="3" /><circle cx="17" cy="18" r="3" /><path d="m8 32 10-9 9 9 6-6 8 8M24 41v-9m-4 4 4-4 4 4" /></svg><span>INSERT CAMERA ROLL</span></motion.span>
   </motion.div>;
 }

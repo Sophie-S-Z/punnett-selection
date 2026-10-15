@@ -20,3 +20,17 @@ test("create and vote navigation work without organism selection", async ({ page
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole("heading", { name: "Got a photo with potential?" })).toBeVisible();
 });
+
+ test("the original icon is served and global navigation follows the current tool", async ({ page, request }) => {
+  for (const path of ["/favicon.ico", "/icon.svg", "/apple-icon.png"]) {
+    const icon = await request.get(path);
+    expect(icon.status()).toBe(200);
+    expect(icon.headers()["content-type"]).toMatch(/image/);
+  }
+  await page.goto("/");
+  const navigation = page.getByRole("navigation", { name: "Lab sections" });
+  await expect(navigation.getByRole("link", { name: "Create", exact: true })).toHaveAttribute("aria-current", "page");
+  await navigation.getByRole("link", { name: "Vote", exact: true }).click();
+  await expect(navigation.getByRole("link", { name: "Vote", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(navigation.getByRole("link", { name: "Create", exact: true })).not.toHaveAttribute("aria-current", "page");
+});

@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { BrandMark } from "./BrandMark";
+import { StudioNavigation } from "./StudioNavigation";
 import { currentUser } from "@/lib/supabase/user";
 import { AuthControls } from "./AuthControls";
 import { getProfile } from "@/lib/supabase/profile";
@@ -14,9 +17,7 @@ export async function LabHeader() {
       </a>
       <Link href="/" className="brand" aria-label="Punnett Selection home">
         <span className="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none">
-            <path d="M10 5c0 9 12 13 12 22M22 5c0 9-12 13-12 22M11 8h10M12 12h8M12 20h8M11 24h10" />
-          </svg>
+          <BrandMark />
         </span>
         <span>
           Punnett
@@ -24,11 +25,7 @@ export async function LabHeader() {
         </span>
       </Link>
       <div className="lab-header-tools">
-        <nav className="lab-nav" aria-label="Lab sections">
-          <Link href="/">Create</Link>
-          <Link href="/?mode=duel">Vote</Link>
-          {user ? <Link href="/lab/notebook/created">History</Link> : null}
-        </nav>
+        <Suspense fallback={<nav className="lab-nav" aria-label="Lab sections"><Link href="/">Create</Link><Link href="/?mode=duel">Vote</Link></nav>}><StudioNavigation signedIn={Boolean(user)} /></Suspense>
         <AuthControls signedIn={Boolean(user)} />
         {user ? <ProfileBadge name={profile?.first_name?.trim() || "Your profile"} photo={profile?.avatar_path ? `/profile/photo?v=${encodeURIComponent(profile.updated_at)}` : null} /> : null}
       </div>
