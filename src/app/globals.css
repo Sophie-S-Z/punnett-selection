@@ -204,7 +204,7 @@ button, input, textarea, select { max-width: 100%; }
 .lab-button:hover:not(:disabled) { background-color: var(--surface-active); box-shadow: var(--glow-shadow); transform: translateY(-1px); }
 .lab-button:active:not(:disabled) { transform: translateY(1px); }
 .lab-button:disabled { cursor: not-allowed; }
-.button-primary { background: var(--hologram); border-color: var(--glow); color: var(--bg); }
+.button-primary { background: var(--glow); border-color: var(--glow); color: var(--bg); }
 .button-primary:hover:not(:disabled) { background: var(--glow-soft); }
 .button-quiet { background: color-mix(in srgb, var(--surface) 50%, transparent); }
 .welcome { padding-block: clamp(56px, 7vw, 104px); gap: clamp(32px, 5vw, 80px); }

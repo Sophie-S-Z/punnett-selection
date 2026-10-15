@@ -2,7 +2,7 @@
 
 ## Milestone
 
-Week 5: remove legacy biology content and align the app with image-based humor captions and voting. Implementation and local checks are complete. Owner setup and final deployed acceptance are pending.
+Week 5: remove legacy biology content and align the app with image-based humor captions and voting. The caption studio is deployed and has passed public and actual-session production checks. The owner confirmed Step 1 setup. Final removal of the obsolete image column remains an owner task.
 
 ## What changed
 
@@ -39,7 +39,7 @@ The owner explicitly authorized only providing exact Storage policy conditions a
 
 ## Open questions
 
-Final production acceptance remains pending the owner cutover. New-account signup-trigger behavior, phone camera behavior on actual hardware, and provider free-quota status require their respective live checks. Do not claim the full Week 3–5 rubric is complete until these are verified.
+See the dated deployed-acceptance entries below for completed production checks. New-account signup-trigger behavior, phone camera behavior on actual hardware, and provider free-quota status require their respective live checks. Do not claim the full Week 3–5 rubric is complete until these are verified.
 
 ## Owner-confirmed setup and studio release — 2026-10-15
 
@@ -52,3 +52,11 @@ A real paired selection persisted after a full history reload. Both chosen and p
 The studio redesign adds an annotated headline, layered upload interaction, optional tone presets, a bounded context counter, history search/verdict filters, and simpler surfaces. Component sources and adaptation scope are recorded in design-references.md. No paid assets or additional UI dependencies are installed.
 
 Final lint, strict TypeScript, all 33 unit/PostgreSQL tests, and production build pass. The local production browser suite passes 16 tests, with three authenticated automation cases skipped because no session was exported. Separate actual-session checks above cover migration, history, and paired-vote persistence. Fresh provider generation and final deployed acceptance are separate checks.
+
+## Deployed acceptance — 2026-10-15
+
+Source 359500def569e1ad981393fe2406f666611ba095 deployed Ready as dpl_CnkGtWG8pCqN2kbyzCQBoUudEiCT at https://punnett-selection-2t66dz4tm-sophie-zhangs-projects.vercel.app/ and the production alias. The exact immutable deployment passes 16 browser checks (three optional authenticated automation cases skipped) and the anonymous live security suite.
+
+The existing Google session works on the production alias. With explicit owner approval, a nonpersonal desk/coffee test image was uploaded through the deployed UI. Dry tone and the context were selected; real Gemini generation returned four saved captions for image 6ce9c7c2-b0e3-4257-bf60-c56971d874a6. A paired vote persisted as Chosen/Passed entries after a full reload. PNG export succeeded at C:\Users\Sophi\Downloads\punnett-AGAG-7252.png. No browser session or credential was exported.
+
+An additional solid-primary-button refinement follows this code deployment. Fresh Google login at a new immutable origin still requires its exact /auth/callback allowlist entry; the existing production Google session is distinct from a new-account signup test. Phone camera on actual hardware and the owner-run final binary-column removal remain pending owner checks.

@@ -130,3 +130,15 @@ Generation results and vote history include saved images. Copy and PNG meme expo
 A following visual-polish commit fixes Create/Vote tab wrapping.
 Signed-in generation, reload persistence, export controls, and actual phone camera acceptance still require the owner.
 Vercel project protection settings were verified off. Keep deployment protection off.
+
+## W5 caption studio production (2026-10-15)
+
+Release code: 359500def569e1ad981393fe2406f666611ba095.
+Immutable URL: https://punnett-selection-2t66dz4tm-sophie-zhangs-projects.vercel.app/.
+Vercel deployment: dpl_CnkGtWG8pCqN2kbyzCQBoUudEiCT, Ready, exact source verified.
+Production alias: https://punnett-selection.vercel.app/.
+Public/visitor production browser suite: 16 passed, three authenticated automation cases skipped.
+Live anonymous security suite: passed.
+Separate actual-session deployed acceptance: real approved image upload, Gemini captions, persistent paired vote after reload, and PNG download passed. Existing general-humor content migrated and remained readable to anonymous visitors. Search and verdict filters passed actual-session checks.
+Owner confirmed Step 1 setup including Storage policy and table RLS review. The agent changed no live policies. Keep deployment protection OFF.
+A final button-surface style refinement follows this release; the URLs above identify the functionally verified initial studio deployment.
