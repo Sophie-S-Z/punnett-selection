@@ -21,6 +21,16 @@ The starting production release is source `65e9059e56ade477851bd1a5a255b7e9cb2b1
 
 Final release URL and post-release checks are recorded separately in the release receipt. A skipped authenticated automation test is not a pass. Earlier real generation, persistence, and export evidence is in `w5-restructuring-report.md`; this audit does not relabel that earlier evidence as a new generation test.
 
+### Release receipt
+
+Source `74aa5c5f0b6ca6c82ff77e94f32b5fc8aafdacdc` is Ready as `dpl_6PHBMdhypSBt3XJMaKRmRcDWFkaQ` at https://punnett-selection-kii648dmy-sophie-zhangs-projects.vercel.app/. The production alias points to this release. The immutable deployment passes 17 browser checks and the anonymous authorization suite; three authenticated automation checks remain skipped without session export. A separate explicit `npx tsc --noEmit` passed.
+
+Actual-session checks on the updated production alias generated four real Gemini captions from a nonpersonal desk illustration. Image `2dfa2c8c-3e26-43a5-b028-7a2229fc49b3` was saved. Keyboard focus moved to the results heading as intended. PNG export downloaded `punnett-TAGA-7862.png`. A preceding real paired vote persisted Chosen `ATTT-3407` and Passed `CTCA-2889`, both with image `14d21fcd-ede8-422e-b353-245499582667`, after a full history page load.
+
+Voting on the new generation also persisted Chosen `CAAA-8401` and Passed `AGTC-1117` after a full history page load. Both entries display the original desk illustration. The production history count increased from 14 to 16. No credentials or browser session were exported.
+
+**Submission blocker:** an actual Google sign-in started at the immutable origin returned to the production homepage instead of that origin's `/auth/callback`. The production browser already had a valid session, so its signed-in UI does not establish that this new login completed. The app's exact callback request is covered by browser acceptance. The observed fallback requires the owner to add `https://punnett-selection-kii648dmy-sophie-zhangs-projects.vercel.app/auth/callback` to Supabase Redirect URLs and then retest. Do not claim the immutable-origin authentication criterion passes until that retest completes.
+
 ## VERIFY findings (schema, API)
 
 Vercel's current project response confirms password protection, SSO protection, and trusted-IP restrictions are disabled. Production is Ready and points to the exact source above. Public live caption/image reads succeed. No schema or policy changes are needed for these fixes. Authentication remains server checked and the existing atomic vote RPC remains unchanged. No course API endpoints were guessed. The owner-authorized Gemini contract remains documented in `caption-api.md`.
