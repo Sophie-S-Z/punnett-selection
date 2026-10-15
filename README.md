@@ -1,50 +1,32 @@
-# Punnett Selection
+# Punnett: AI captions
 
-The Humor Project. Columbia University. Fall 2026.
+Punnett turns uploaded photos, screenshots, and memes into original funny AI captions. Signed-in users generate captions, compare two captions for the same image, and keep image-based creation and voting histories. Captions can be copied or downloaded as memes.
 
 ## Development
 
-Use Node.js 24 and npm.
-Run `npm ci` and `npm run dev`.
+Use Node.js 24 or newer. Copy `.env.example` to ignored `.env.local` and configure the existing Supabase project and Gemini credentials. Never commit secrets or use a service role key.
 
-## Required checks
+Run `npm run dev`. Run `npm run check` before deploying. This runs lint, strict TypeScript, unit/PostgreSQL tests, and the production build.
+Run `npm run test:e2e` against `PUNNETT_TEST_URL`. Authenticated tests need an owner-provided session and explicit authorization for persisted test votes. Skipped tests are not evidence of success.
 
-Run `npm run build`, `npm run lint`, and `npx tsc --noEmit` before each push.
-Run `npm run check` to run lint, generated route types, TypeScript, unit tests, and the production build in order.
-Lint fails on warnings.
-GitHub Actions runs lint, TypeScript, and unit tests without database secrets.
-Run `npm run test:e2e` against a running app for browser and accessibility checks.
-Production build and live browser checks remain required before deployment.
+## Routes
 
-## Milestones
+- `/`: image upload and caption creation; Google sign-in for visitors.
+- `/?mode=duel`: public image/caption preview; voting requires login.
+- `/incubator`: signed-in upload route.
+- `/lab/notebook/created`: own generated captions with images.
+- `/lab/notebook`: own paired vote history with images.
+- `/profile`: own names and optional private profile photo.
+- `/auth/callback`: exact OAuth callback.
+- `/media/{id}`: completed, nonarchived images from Storage.
 
-W1: Public Next.js landing page.
-W2: Public `/specimens` list from `lab_specimens`.
-W3: Google authentication, profiles, and an owner-scoped personal bench.
-W4: Paired caption selection, vote history, and real Gemini image captions.
+Old `/specimens`, `/discover`, and collection bookmarks redirect to the active caption experience. Biology discovery and survival-rating endpoints are removed.
 
-## Rating app setup
+## Database and deployment
 
-Copy `.env.example` to the ignored `.env.local` file.
-The owner configures Supabase and the server-only Gemini key in local and Vercel environments.
-The owner runs `docs/w4-rating.sql` in the existing Supabase project.
-The script creates app-owned tables and authenticated RPCs without changing RLS policies.
-Read `docs/schema-notes.md` and `docs/caption-api.md` for the verified contracts.
+Existing owner-run W3/W4 migrations establish profiles, signup trigger, narrow ownership-checked RPCs, and app-owned rating tables. The current storage/archive cutover is `docs/w5-caption-storage.sql`.
+**Apply the owner steps in [docs/w5-owner-cutover.md](docs/w5-owner-cutover.md) before deploying this revision.** The cutover archives the old biology generations and preserves recent general-humor images for an owner-scoped Storage transfer. Run `docs/w5-finish-storage.sql` after transfer to remove the obsolete base64 image field. New files live in the private `caption-images` bucket; rows retain paths and exact prompts.
 
-## Caption-first experience (TA feedback, 2026-10-10)
+AGENTS.md prohibits agent changes to RLS policies. The owner must configure Storage access and audit RLS across the existing tables. Keep Vercel deployment protection disabled and allowlist each immutable deployment's exact `/auth/callback`.
 
-Open / to create AI captions for any uploaded image. Google sign-in is required to generate or vote.
-Upload a photo, screenshot, or meme, optionally add tone/context, and generate four original captions.
-Every result shows its image. Copy a caption or download an image with its caption as a PNG meme.
-Compare captions in /?mode=duel. A and B choose a caption; S skips.
-Paired votes persist atomically and never show an already judged caption to that user.
-Open /lab/notebook for image-and-caption history with Chosen/Passed verdicts and timestamps.
-The previous species catalog and discovery remain available at their existing routes as historical extensions, outside primary navigation.
-Earlier personal organism collections are available at /lab/notebook/collection.
-The general upload flow does not require the species catalog or discovery APIs.
-Image generation is optional in the assignment and is outside this revision.
-Read docs/caption-pivot-report.md for verification and remaining live acceptance.
-
-Use `main` for production.
-Keep environment values in `.env.local` and Vercel settings.
-Read `AGENTS.md` before changes.
+Historical species documents are deployment provenance, not active app data or current product instructions. Do not rerun their seeds or migrations.

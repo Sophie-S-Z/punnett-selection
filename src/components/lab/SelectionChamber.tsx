@@ -51,7 +51,7 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
     const other = pair[side === "left" ? "right" : "left"];
     try {
       const result = await selectSpecimen(chosen.id, other.id);
-      if (!result.ok && !result.duplicate) throw new Error(result.error || "Your selection could not be saved. Select a specimen to try again.");
+      if (!result.ok && !result.duplicate) throw new Error(result.error || "Your selection could not be saved. Choose a caption to try again.");
       if (result.duplicate) {
         toast("This pair was already judged. Loading the next pair.");
       } else {
@@ -101,7 +101,7 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
         </div>
       </div>
       {!signedIn ? <div className="chamber-glass"><div><span className="glass-lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 10V7a5 5 0 0 1 10 0v3M6 10h12v11H6zM12 14v3" /></svg></span><p className="eyebrow">Browse freely · Sign in to vote</p><h3>Found your favorite?</h3><p>Sign in with Google to vote or generate captions for your own image.</p><AuthControls /></div></div> : null}
-    </div> : pending ? <LabLoader label="Loading captions…" description="Finding your next pair of captions." /> : !error ? <div className="chamber-empty"><span className="empty-dish" aria-hidden="true" /><h3>You have rated every available pair.</h3>{signedIn ? <><p>Upload an image to create more captions.</p><Link className="lab-button button-primary" href="/incubator">Create captions</Link></> : <><p>Sign in to create captions from your own images.</p><AuthControls /></>}</div> : null}
+    </div> : pending ? <LabLoader label="Loading captions…" description="Finding your next pair of captions." /> : !error ? <div className="chamber-empty"><span className="empty-dish" aria-hidden="true" /><h3>{signedIn ? "No unrated caption pairs right now." : "No caption pairs yet."}</h3>{signedIn ? <><p>Upload an image to create more captions.</p><Link className="lab-button button-primary" href="/incubator">Create captions</Link></> : <><p>Sign in to create captions from your own images.</p><AuthControls /></>}</div> : null}
     {pending && pair ? <p className="chamber-pending" role="status">{winner ? "Vote saved. Loading the next pair…" : "Saving or loading captions…"}</p> : null}
   </section>;
 }

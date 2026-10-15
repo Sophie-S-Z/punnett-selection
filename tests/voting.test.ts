@@ -20,7 +20,7 @@ test("invalid and duplicate caption identities are never written", async () => {
   for (const ids of [[winner, winner], ["forged", loser], [winner, ""]]) {
     const result = await castVote(ids[0], ids[1], { authenticate: async () => true, insertPair: async () => { throw new Error("Must not write"); } });
     assert.equal(result.ok, false);
-    assert.match(result.error!, /distinct specimens/);
+    assert.match(result.error!, /distinct captions/);
   }
 });
 test("duplicate and transport failures return recoverable safe results", async () => {

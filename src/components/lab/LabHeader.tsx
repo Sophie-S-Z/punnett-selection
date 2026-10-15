@@ -27,7 +27,7 @@ export async function LabHeader() {
         <nav className="lab-nav" aria-label="Lab sections">
           <Link href="/">Create</Link>
           <Link href="/?mode=duel">Vote</Link>
-          {user ? <Link href="/lab/notebook">History</Link> : null}
+          {user ? <Link href="/lab/notebook/created">History</Link> : null}
         </nav>
         <AuthControls signedIn={Boolean(user)} />
         {user ? <ProfileBadge name={profile?.first_name?.trim() || "Your profile"} photo={profile?.avatar_path ? `/profile/photo?v=${encodeURIComponent(profile.updated_at)}` : null} /> : null}

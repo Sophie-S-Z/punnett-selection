@@ -25,6 +25,6 @@ test("caption identities cannot be arbitrary RPC input", () => {
 });
 test("vote failures distinguish duplicates without exposing database details", () => {
   assert.deepEqual(voteError({ code: "23505" }), { ok: false, duplicate: true, error: "This pair has already been judged. Loading another pair." });
-  assert.deepEqual(voteError({ code: "42501" }), { ok: false, error: "Put on lab gloves before selecting a specimen." });
+  assert.deepEqual(voteError({ code: "42501" }), { ok: false, error: "Sign in to vote on captions." });
   assert.equal(voteError({ message: "secret internals" }).error?.includes("secret"), false);
 });

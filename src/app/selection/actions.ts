@@ -24,9 +24,9 @@ export async function nextPair(previousImageId?: string) {
   try {
     const client = await createClient();
     const { data, error } = await client.auth.getUser();
-    if (!data.user || error) return { pair: null, error: "Put on lab gloves before loading another pair." };
+    if (!data.user || error) return { pair: null, error: "Sign in to load another pair." };
     return { pair: await loadPair(data.user.id, undefined, previousImageId) };
   } catch {
-    return { pair: null, error: "Specimens could not be loaded. Please try again." };
+    return { pair: null, error: "Captions could not be loaded. Please try again." };
   }
 }

@@ -51,6 +51,13 @@ export function parseVotePage(value: unknown): Page<VoteRecord> {
 
 export function voteError(error: { code?: string; message?: string }): VoteResult {
   if (error.code === "23505") return { ok: false, duplicate: true, error: "This pair has already been judged. Loading another pair." };
-  if (error.code === "42501") return { ok: false, error: "Put on lab gloves before selecting a specimen." };
+  if (error.code === "42501") return { ok: false, error: "Sign in to vote on captions." };
   return { ok: false, error: "The selection could not be saved. Please try again." };
+}
+
+export type CreationRecord = CaptionCandidate & { createdAt: string };
+export function parseCreationPage(value: unknown): Page<CreationRecord> {
+ return page(value,"captions",(value)=>{ const row=record(value); const result=caption(row);
+ if(typeof row.createdAt!=="string" || !Number.isFinite(Date.parse(row.createdAt))) throw new Error("Invalid creation date.");
+ return {...result,createdAt:row.createdAt}; });
 }

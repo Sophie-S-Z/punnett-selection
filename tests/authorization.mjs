@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 
 const origin = process.env.PUNNETT_TEST_URL ?? "http://localhost:3000";
-for (const path of ["/profile", "/lab/notebook", "/discover"]) {
+for (const path of ["/profile", "/lab/notebook", "/lab/notebook/created", "/discover"]) {
   const response = await fetch(new URL(path, origin), {
     method: "POST", redirect: "manual",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -16,6 +16,10 @@ const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 assert.ok(url && key, "Load the existing Supabase environment before testing.");
 for (const [path, body] of [
   ["punnett_create_generation", { image_data_url: "", prompt_input: "", model_input: "" }],
+  ["punnett_create_generation_v2", { image_path_input: "", prompt_input: "", model_input: "" }],
+  ["punnett_creation_history", { offset_input: 0 }],
+  ["punnett_legacy_image_page", {}],
+  ["punnett_migrate_image", { image_id_input: "954a0308-1972-40ba-8e22-8299c57777fd", image_path_input: "" }],
   ["punnett_complete_generation", { generation_id_input: "954a0308-1972-40ba-8e22-8299c57777fd", captions_input: [] }],
   ["punnett_fail_generation", { generation_id_input: "954a0308-1972-40ba-8e22-8299c57777fd" }],
   ["punnett_select_vote", { winner_id_input: "954a0308-1972-40ba-8e22-8299c57777fd", loser_id_input: "954a0308-1972-40ba-8e22-8299c57777fe" }],

@@ -43,7 +43,7 @@ test("visitors see the selection chamber and cannot judge real live captions", a
     // A real empty/error state is valid. The test never seeds simulated media.
     const error = chamber.getByRole("alert");
     if (await error.count()) await expect(error).toBeVisible();
-    else await expect(chamber.getByRole("heading", { name: "You have rated every available pair." })).toBeVisible();
+    else await expect(chamber.getByRole("heading", { name: "No caption pairs yet." })).toBeVisible();
   }
 });
 

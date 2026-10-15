@@ -21,10 +21,10 @@ for (const width of [320, 390, 768, 1440]) {
 }
 
 test("visitors cannot open protected routes or private photos", async ({ page }) => {
-  for (const path of ["/profile", "/profile/photo", "/lab/notebook", "/incubator", "/discover"]) {
+  for (const path of ["/profile", "/profile/photo", "/lab/notebook", "/lab/notebook/created", "/lab/notebook/collection", "/incubator", "/discover"]) {
     await page.goto(path);
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.locator("h1")).toContainText("Your image.");
+    await expect(page.locator("h1")).toContainText("Your camera roll.");
     await expect(page.getByRole("button", { name: "Sign in with Google", exact: true }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Profile", exact: true })).toHaveCount(0);
   }

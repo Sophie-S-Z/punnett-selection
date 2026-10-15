@@ -1,6 +1,7 @@
 "use server";
 
 import sharp from "sharp";
+import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { buildGenerationPrompt, geminiRequest, MAX_IMAGE_BYTES, parseGeneratedCaptions, validateUpload } from "@/lib/punnett/generation";
@@ -9,6 +10,7 @@ import type { GenerationResult, GenerationStage } from "@/lib/punnett/generation
 export async function generateSpecimens(formData: FormData): Promise<GenerationResult> {
   let stage: GenerationStage = "culturing";
   let generationId: string | null = null;
+  let storagePath: string | null = null;
   let client: Awaited<ReturnType<typeof createClient>> | null = null;
   try {
     client = await createClient();
@@ -39,11 +41,15 @@ export async function generateSpecimens(formData: FormData): Promise<GenerationR
       return { ok: false, error: "This image could not be opened. Choose a different JPEG, PNG, WebP, or GIF.", stage };
     }
     if (jpeg.length > MAX_IMAGE_BYTES) return { ok: false, error: "This image is too detailed. Choose a smaller image.", stage };
+    storagePath = `${user.id}/${randomUUID()}.jpg`;
+    const { error: uploadError } = await client.storage.from("caption-images").upload(storagePath, jpeg, { contentType: "image/jpeg", upsert: false });
+    if (uploadError) return { ok: false, error: "Your image could not be uploaded. Please try again or contact the app owner.", stage };
     const base64 = jpeg.toString("base64");
-    const { data: generation, error: createError } = await client.rpc("punnett_create_generation", {
-      image_data_url: `data:image/jpeg;base64,${base64}`, prompt_input: prompt, model_input: model,
+    const { data: generation, error: createError } = await client.rpc("punnett_create_generation_v2", {
+      image_path_input: storagePath, prompt_input: prompt, model_input: model,
     });
     if (createError || !generation?.id) {
+      await client.storage.from("caption-images").remove([storagePath]);
       return { ok: false, error: createError?.message?.includes("daily_limit") ? "You can generate captions 10 times in 24 hours. Please try again later." : "Your image could not be saved. Please contact the app owner if this continues.", stage };
     }
     generationId = generation.id;
@@ -61,6 +67,7 @@ export async function generateSpecimens(formData: FormData): Promise<GenerationR
     if (completeError || !completed?.image_id || !Array.isArray(completed.captions)) throw new Error("Saving captions failed.");
     revalidatePath("/");
     revalidatePath("/incubator");
+    revalidatePath("/lab/notebook/created");
     return { ok: true, imageId: completed.image_id, captions: completed.captions };
   } catch (cause) {
     if (generationId && client) {

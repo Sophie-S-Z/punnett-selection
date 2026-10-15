@@ -50,7 +50,7 @@ The primary upload flow requires a real uploaded image and accepts any subject.
 The prompt requests four short, original humor/meme captions grounded in visible image details.
 Optional tone/context is limited to 1,000 characters and stored in the exact prompt.
 The primary parser validates 2–6 nonblank, distinct strings of at most 500 characters without taxon prefixes.
-Catalog-specific source constraints apply only to the historical discovery extension.
+Species discovery and source-specific prompt constraints are removed from the active application.
 The provider's 429 response produces a recoverable quota message and marks the pending generation failed.
 Results, voting, and history show the saved image beside the caption.
 Copy and PNG meme download run in the browser using the existing saved image.
@@ -59,7 +59,7 @@ The full exact prompt and model identifier are stored with the generation reques
 
 The action calls these app-owned RPCs using the authenticated anon client:
 
-1. `punnett_create_generation(image_data_url, prompt_input, model_input)` saves the image and pending generation. It reserves one of 10 daily requests for the current server session user.
+1. `punnett_create_generation_v2(image_path_input, prompt_input, model_input)` saves the image and pending generation. It reserves one of 10 daily requests for the current server session user.
 2. `punnett_complete_generation(generation_id_input, captions_input)` atomically stores the validated captions and marks the generation complete.
 3. `punnett_fail_generation(generation_id_input)` marks a failed provider or save attempt. Cleanup is best-effort if database connectivity fails.
 
@@ -75,25 +75,11 @@ The new tables and RPCs must be installed before a live generation can succeed.
 The owner must configure and verify RLS separately under AGENTS.md R1.
 No service-role credential is used.
 Owner configuration and a successful authenticated live generation must be verified before claiming end-to-end completion.
-## Ecosystem discovery extension
 
-`/discover` is authenticated on the server.
-The server proposes one new species through the same configured Gemini REST endpoint with structured JSON fields `commonName` and `scientificName`.
-The request prompt and actual model are persisted before the provider call.
-Discovery is user-initiated and limited to three attempts per 24 hours.
+## W5 Storage cutover
 
-The server verifies `https://api.gbif.org/v1/species/match?name=<encoded binomial>&strict=true`.
-It requires an exact accepted SPECIES match, confidence at least 95, matching canonical name, and Animalia, Plantae, or Fungi.
-It retrieves `https://en.wikipedia.org/api/rest_v1/page/summary/<encoded binomial>`.
-Only a standard article summary that contains the same binomial is accepted.
-The source excerpt, URL, and revision are saved for the user to review.
-No model-supplied URLs are fetched.
-Scientific identity and provenance checks do not establish the truth of every source statement.
+Before Gemini is called, the authenticated client uploads the prepared JPEG to the private `caption-images` bucket at `{user.id}/{randomUUID()}.jpg`, with overwrites disabled. The generation RPC verifies the caller-owned path and an existing Storage object. Database rows store `storage_path`, not base64 or binary image contents. Base64 is used transiently only in the provider request.
 
-On user publication, the server re-reads the saved owner proposal, reserves a bounded culture attempt, and generates four descriptions from the saved excerpt.
-One database transaction saves the catalog organism, culture reference, generation prompt, actual captions, and publication linkage.
-Repeated publication returns the original culture instead of duplicating records.
-Wikipedia excerpts are attributed with a CC BY-SA 4.0 link.
-The public source RPC excludes owner identities and unpublished proposals.
+Completed nonarchived images are exposed through `/media/{id}` after `punnett_read_image` returns a Storage path. Storage policies independently enforce owner upload/read/cleanup and completed-image public reads. The application uses no service-role key. Creation and vote histories are owner-scoped and exclude archived generations. The exact constructed prompt is retained even if the provider fails.
 
-References: [GBIF species API](https://techdocs.gbif.org/en/openapi/v1/species), [Wikimedia REST API](https://www.mediawiki.org/wiki/Wikimedia_REST_API).
+Apply `docs/w5-owner-cutover.md` before deploying the Storage revision. Old biology generations are archived. Recent general-humor images transfer through temporary owner-only RPCs. The finish script refuses to drop the embedded image column until that transfer is complete.

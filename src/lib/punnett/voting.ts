@@ -9,7 +9,7 @@ type VoteStore = {
 export async function castVote(winnerId: string, loserId: string, store: VoteStore): Promise<VoteResult> {
   try {
     if (!await store.authenticate()) return voteError({ code: "42501" });
-    if (typeof winnerId !== "string" || typeof loserId !== "string" || !validCaptionId(winnerId) || !validCaptionId(loserId) || winnerId === loserId) return { ok: false, error: "Choose two distinct specimens from the same image." };
+    if (typeof winnerId !== "string" || typeof loserId !== "string" || !validCaptionId(winnerId) || !validCaptionId(loserId) || winnerId === loserId) return { ok: false, error: "Choose two distinct captions from the same image." };
     const result = await store.insertPair(winnerId, loserId);
     return result.error ? voteError(result.error) : { ok: true };
   } catch {

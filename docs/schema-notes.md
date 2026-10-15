@@ -233,3 +233,19 @@ Legacy discovery continues to use source-bound scientific validation.
 Existing private collections are preserved at `/lab/notebook/collection` with server authentication and owner RPCs.
 Live anonymous security checks passed on 2026-10-10. No schema or RLS policy changes are part of this revision.
 The official provider contract was rechecked: https://ai.google.dev/api/generate-content.
+
+## W5 selective caption and Storage cutover (2026-10-10)
+
+The active app no longer reads shared species facts, discovery proposals, survival ratings, or organism collections. Historical tables remain for audit; the cutover revokes obsolete endpoint execution and archives old generations.
+
+Live public catalog audit found 68 captions across 17 images: 64 biology captions and four recent general-humor captions. Google Auth settings still report enabled. New Storage/creation-history RPCs were not installed at the time of the probe (`PGRST202`).
+
+`w5-caption-storage.sql` adds `archived` and `storage_path`, filters public captions, images and owner vote history, preserves atomic paired voting, and exposes owner-only creation history. Creation v2 requires an uploaded object in `caption-images` whose path starts with `auth.uid()`; it stores the exact prompt and model and maintains the rolling quota.
+
+Pre-cutover general-humor images are identified from the exact generation prompt prefix authored by this app. Their bytes remain private only until the image owner's server-side Storage transfer succeeds. Irrelevant species image bytes are cleared. `w5-finish-storage.sql` aborts if any bytes remain and then drops `data_url`.
+
+The exact migration/finish scripts pass isolated PostgreSQL tests for preservation, archive filtering, owner isolation, public/private boundaries, prompt storage, paired-vote rollback, and pagination. This is not live setup confirmation. Storage policies are provided under the owner's explicit narrow R1 exception and applied only by the owner. No live RLS policy change was performed by the agent.
+
+## Studio deployment preparation (2026-10-15)
+
+The owner confirmed the selective migration, private caption-images bucket, four Storage policies, existing-policy audit, and RLS audit. Live anonymous mutation/private-read checks pass. Actual-session local production acceptance restored the recent general-humor image/four captions, loaded all images, persisted a paired vote after reload, and exercised history search and Chosen filtering. An anonymous image GET returned HTTP 200 JPEG. The finish script remains owner-run after transfer verification.

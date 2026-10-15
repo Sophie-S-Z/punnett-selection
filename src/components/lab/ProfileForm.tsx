@@ -12,7 +12,7 @@ export function ProfileForm({ profile }: { profile: Profile }) {
   const [state, action, pending] = useActionState(saveProfile, initial);
   return <form action={action} className="profile-form" aria-busy={pending}>
     <fieldset disabled={pending}>
-      <legend className="sr-only">Your lab profile</legend>
+      <legend className="sr-only">Your profile</legend>
       <div className="profile-photo-row">
         {profile.avatar_path ? <Image src={`/profile/photo?v=${encodeURIComponent(profile.updated_at)}`} unoptimized width={96} height={96} alt="Your profile photo" className="profile-photo" /> : <div className="profile-photo profile-initial" aria-label="No profile photo">p.</div>}
         <div><label htmlFor="photo">Profile photo <span className="field-optional">(optional)</span></label><input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp" aria-describedby="photo-help" /><p id="photo-help" className="field-help">JPEG, PNG, or WebP. Up to 2 MB and 4096 × 4096 pixels. Your photo is private.</p></div>
@@ -22,6 +22,6 @@ export function ProfileForm({ profile }: { profile: Profile }) {
       <button type="submit" className="lab-button">{pending ? "Saving…" : "Save profile"}</button>
     </fieldset>
     {state.message ? <p role={state.status === "error" ? "alert" : "status"} className={state.status === "error" ? "form-error" : "form-success"}>{state.message}</p> : null}
-    {state.status === "success" ? <Link className="text-link" href="/lab/notebook">Open your notebook →</Link> : null}
+    {state.status === "success" ? <Link className="text-link" href="/lab/notebook">Open your caption history →</Link> : null}
   </form>;
 }
