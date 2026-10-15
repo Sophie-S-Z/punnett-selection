@@ -29,6 +29,8 @@ Actual-session checks on the updated production alias generated four real Gemini
 
 Voting on the new generation also persisted Chosen `CAAA-8401` and Passed `AGTC-1117` after a full history page load. Both entries display the original desk illustration. The production history count increased from 14 to 16. No credentials or browser session were exported.
 
+An actual logout on the production alias removed History/Profile access and restored the visitor screen. A fresh Google login from that signed-out state returned to the production root with the protected editor, History, and profile link restored. This verifies existing-account production login/logout. It does not resolve the immutable-origin callback blocker below or test first-time account provisioning.
+
 **Submission blocker:** an actual Google sign-in started at the immutable origin returned to the production homepage instead of that origin's `/auth/callback`. The production browser already had a valid session, so its signed-in UI does not establish that this new login completed. The app's exact callback request is covered by browser acceptance. The observed fallback requires the owner to add `https://punnett-selection-kii648dmy-sophie-zhangs-projects.vercel.app/auth/callback` to Supabase Redirect URLs and then retest. Do not claim the immutable-origin authentication criterion passes until that retest completes.
 
 ## VERIFY findings (schema, API)
