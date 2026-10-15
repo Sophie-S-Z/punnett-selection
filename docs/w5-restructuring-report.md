@@ -60,3 +60,7 @@ Source 359500def569e1ad981393fe2406f666611ba095 deployed Ready as dpl_CnkGtWG8pC
 The existing Google session works on the production alias. With explicit owner approval, a nonpersonal desk/coffee test image was uploaded through the deployed UI. Dry tone and the context were selected; real Gemini generation returned four saved captions for image 6ce9c7c2-b0e3-4257-bf60-c56971d874a6. A paired vote persisted as Chosen/Passed entries after a full reload. PNG export succeeded at C:\Users\Sophi\Downloads\punnett-AGAG-7252.png. No browser session or credential was exported.
 
 An additional solid-primary-button refinement follows this code deployment. Fresh Google login at a new immutable origin still requires its exact /auth/callback allowlist entry; the existing production Google session is distinct from a new-account signup test. Phone camera on actual hardware and the owner-run final binary-column removal remain pending owner checks.
+
+## Cutover completed — 2026-10-15
+
+The owner confirmed w5-finish-storage.sql succeeded after transfer verification. The obsolete binary image column is removed; image files live in Storage and application rows retain paths. The final code polish is 0b0e9ee; later documentation-only commits do not alter its UI/server behavior. All three owner cutover steps are now complete. Remaining limitations are a fresh-account signup test, actual phone camera hardware acceptance, and an independent owner readback of the exact saved prompt; the exact prompt persistence contract is covered by PostgreSQL tests.

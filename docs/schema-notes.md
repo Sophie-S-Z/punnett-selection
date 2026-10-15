@@ -249,3 +249,7 @@ The exact migration/finish scripts pass isolated PostgreSQL tests for preservati
 ## Studio deployment preparation (2026-10-15)
 
 The owner confirmed the selective migration, private caption-images bucket, four Storage policies, existing-policy audit, and RLS audit. Live anonymous mutation/private-read checks pass. Actual-session local production acceptance restored the recent general-humor image/four captions, loaded all images, persisted a paired vote after reload, and exercised history search and Chosen filtering. An anonymous image GET returned HTTP 200 JPEG. The finish script remains owner-run after transfer verification.
+
+## Owner finish confirmation — 2026-10-15
+
+After the recent meme image transferred successfully and fresh deployed generation/voting/export passed, the owner ran w5-finish-storage.sql and confirmed success. The owner confirmed storage_path remains and data_url is removed. This completes the owner-managed three-step Storage cutover. No live schema-owner credential or browser session was exported to the agent. No live RLS policy change was performed by the agent.
