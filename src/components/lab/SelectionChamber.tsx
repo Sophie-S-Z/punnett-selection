@@ -49,9 +49,11 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
     setError("");
     const chosen = pair[side];
     const other = pair[side === "left" ? "right" : "left"];
+    let voteRecorded = false;
     try {
       const result = await selectSpecimen(chosen.id, other.id);
       if (!result.ok && !result.duplicate) throw new Error(result.error || "Your selection could not be saved. Choose a caption to try again.");
+      voteRecorded = true;
       if (result.duplicate) {
         toast("This pair was already judged. Loading the next pair.");
       } else {
@@ -63,7 +65,9 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
       setPair(null);
       await loadNext();
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Your selection could not be saved. Please try again.");
+      setError(voteRecorded
+        ? "Your vote is recorded. The next pair could not be loaded. Try loading again or check your vote history."
+        : cause instanceof Error ? cause.message : "Your selection could not be saved. Please try again.");
     } finally { busy.current = false; setPending(false); }
   }, [signedIn, pair, reduceMotion, loadNext]);
 
@@ -84,7 +88,7 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
 
   return <section className="selection-chamber" aria-label="Selection chamber" aria-busy={pending}>
     <div className="chamber-heading"><div><p className="eyebrow">Same image · Different instincts</p><h2>Which caption is funnier?</h2></div>{signedIn ? <Link className="text-link" href="/incubator">Create captions →</Link> : null}</div>
-    {error ? <div className="chamber-error" role="alert"><p>{error}</p><button type="button" className="lab-button button-quiet" onClick={() => signedIn ? void skip() : window.location.reload()} disabled={pending}>Try loading again</button></div> : null}
+    {error ? <div className="chamber-error" role="alert"><p>{error}</p><button type="button" className="lab-button button-quiet" onClick={() => signedIn ? void skip() : window.location.reload()} disabled={pending}>Try loading again</button>{signedIn ? <Link className="text-link" href="/lab/notebook">View your vote history →</Link> : null}</div> : null}
     {pair ? <div className="duel-stage">
       <div className={`duel-layout ${!signedIn ? "duel-locked" : ""}`}>
         <figure className="duel-image"><Image src={`/media/${pair.imageId}`} alt="The image used to generate both captions" width={1200} height={900} unoptimized /><figcaption>One image. Two punchlines.</figcaption></figure>

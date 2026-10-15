@@ -29,10 +29,17 @@ export function Incubator() {
   const [culture, setCulture] = useState<Culture | null>(null);
   const input = useRef<HTMLInputElement>(null);
   const camera = useRef<HTMLInputElement>(null);
+  const resultsHeading = useRef<HTMLHeadingElement>(null);
   const busy = useRef(false);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
+  useEffect(() => {
+    if (culture) {
+      resultsHeading.current?.focus({ preventScroll: true });
+      resultsHeading.current?.scrollIntoView({ behavior: reduceMotion ? "instant" : "smooth", block: "start" });
+    }
+  }, [culture, reduceMotion]);
 
   function removePhoto() {
     if (busy.current) return;
@@ -108,7 +115,7 @@ export function Incubator() {
         {file ? <button type="button" className="lab-button button-quiet" onClick={removePhoto} disabled={pending}>Remove image</button> : null}
       </div>
       <div className="culture-instructions">
-        <p className="studio-section-label">02 / The direction</p><h2>What’s the mood?</h2><p className="culture-description">Four different takes on your image. A little context makes them yours.</p><fieldset className="tone-picker" disabled={pending}><legend>Pick a tone <span className="field-optional">(optional)</span></legend>{["Dry", "Absurd", "Relatable", "Playful"].map(value => <button key={value} type="button" aria-pressed={tone === value} onClick={() => { const next = tone === value ? "" : value; setTone(next); setPrompt(current => current.slice(0, 1000 - (next ? `Tone: ${next}.\n`.length : 0))); }}><span>{value}</span>{tone === value ? <motion.span className="tone-selected" layoutId="selected-tone" transition={{ duration: reduceMotion ? 0 : .18 }} /> : null}</button>)}</fieldset>
+        <p className="studio-section-label">02 / The direction</p><h2>What’s the mood?</h2><p className="culture-description">Different takes on your image. A little context makes them yours.</p><fieldset className="tone-picker" disabled={pending}><legend>Pick a tone <span className="field-optional">(optional)</span></legend>{["Dry", "Absurd", "Relatable", "Playful"].map(value => <button key={value} type="button" aria-pressed={tone === value} onClick={() => { const next = tone === value ? "" : value; setTone(next); setPrompt(current => current.slice(0, 1000 - (next ? `Tone: ${next}.\n`.length : 0))); }}><span>{value}</span>{tone === value ? <motion.span className="tone-selected" layoutId="selected-tone" transition={{ duration: reduceMotion ? 0 : .18 }} /> : null}</button>)}</fieldset>
         <div className="bench-field"><label htmlFor="culture-prompt">Tone or context <span className="field-optional">(optional)</span></label><textarea placeholder="The group project is due tomorrow. Nobody has opened the doc." id="culture-prompt" name="prompt" value={prompt} onChange={event => setPrompt(event.target.value)} maxLength={contextLimit} rows={3} disabled={pending} aria-describedby="prompt-help prompt-count" /><span id="prompt-count" className="prompt-count">{prompt.length} / {contextLimit}</span><p id="prompt-help" className="field-help">Add the backstory, an inside joke, or who this is for.</p></div>
         <button className="lab-button button-primary culture-submit" type="submit" disabled={pending || !file}>{pending ? "Generating captions…" : "Generate captions"}<span aria-hidden="true">↗</span></button>
         <p className="culture-sharing field-help">Your image and instructions are sent to Gemini. Completed images and captions appear in public voting. Only upload images you are comfortable sharing.</p>
@@ -117,7 +124,7 @@ export function Incubator() {
       </div>
     </form>
     {culture ? <section className="culture-results" aria-label="Generated captions" aria-live="polite">
-      <div className="culture-results-heading"><div><p className="eyebrow">03 / Your captions · Saved</p><h2>Pick your favorite</h2></div><Link className="lab-button button-primary" href={`/?image=${encodeURIComponent(culture.imageId)}`}>Compare these captions<span aria-hidden="true"> ↗</span></Link></div>
+      <div className="culture-results-heading"><div><p className="eyebrow">03 / Your captions · Saved</p><h2 ref={resultsHeading} tabIndex={-1}>Pick your favorite</h2></div><Link className="lab-button button-primary" href={`/?image=${encodeURIComponent(culture.imageId)}`}>Compare these captions<span aria-hidden="true"> ↗</span></Link></div>
       <ul className="specimen-list">{culture.captions.map((caption, index) => <motion.li key={caption.id} initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : .25, delay: reduceMotion ? 0 : index * .06 }}><article className="specimen-card"><Image className="caption-card-image" src={`/media/${culture.imageId}`} alt="The uploaded image for this caption" width={800} height={600} unoptimized /><p className="eyebrow">Caption · {specimenCode(caption.id)}</p><h3>{caption.text}</h3><CaptionActions text={caption.text} imageId={culture.imageId} code={specimenCode(caption.id)} /></article></motion.li>)}</ul><div className="results-next"><Link className="text-link" href="/lab/notebook/created">View your caption history →</Link><button type="button" className="lab-button button-quiet" onClick={removePhoto}>Start with another image</button></div>
     </section> : null}
   </div>;
