@@ -6,7 +6,6 @@ import { motion, useReducedMotion } from "motion/react";
 import { toast } from "sonner";
 import { generateSpecimens } from "@/app/incubator/actions";
 import type { CaptionCandidate } from "@/lib/punnett/pairing";
-import { specimenCode } from "@/lib/punnett/specimenCode";
 import { validateUpload } from "@/lib/punnett/generation";
 import { prepareUpload } from "@/lib/punnett/imageUpload";
 import { CaptionActions } from "./CaptionActions";
@@ -125,7 +124,7 @@ export function Incubator() {
     </form>
     {culture ? <section className="culture-results" aria-label="Generated captions" aria-live="polite">
       <div className="culture-results-heading"><div><p className="eyebrow">03 / Your captions · Saved</p><h2 ref={resultsHeading} tabIndex={-1}>Pick your favorite</h2></div><Link className="lab-button button-primary" href={`/?image=${encodeURIComponent(culture.imageId)}`}>Compare these captions<span aria-hidden="true"> ↗</span></Link></div>
-      <ul className="specimen-list">{culture.captions.map((caption, index) => <motion.li key={caption.id} initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : .25, delay: reduceMotion ? 0 : index * .06 }}><article className="specimen-card"><Image className="caption-card-image" src={`/media/${culture.imageId}`} alt="The uploaded image for this caption" width={800} height={600} unoptimized /><p className="eyebrow">Caption · {specimenCode(caption.id)}</p><h3>{caption.text}</h3><CaptionActions text={caption.text} imageId={culture.imageId} code={specimenCode(caption.id)} /></article></motion.li>)}</ul><div className="results-next"><Link className="text-link" href="/lab/notebook/created">View your caption history →</Link><button type="button" className="lab-button button-quiet" onClick={removePhoto}>Start with another image</button></div>
+      <ul className="specimen-list">{culture.captions.map((caption, index) => <motion.li key={caption.id} initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : .25, delay: reduceMotion ? 0 : index * .06 }}><article className="specimen-card"><Image className="caption-card-image" src={`/media/${culture.imageId}`} alt="The uploaded image for this caption" width={800} height={600} unoptimized /><p className="eyebrow">Caption {index + 1}</p><h3>{caption.text}</h3><CaptionActions text={caption.text} imageId={culture.imageId} /></article></motion.li>)}</ul><div className="results-next"><Link className="text-link" href="/lab/notebook/created">View your caption history →</Link><button type="button" className="lab-button button-quiet" onClick={removePhoto}>Start with another image</button></div>
     </section> : null}
   </div>;
 }

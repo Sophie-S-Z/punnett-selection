@@ -9,6 +9,12 @@ export type Profile = {
 export const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
 export const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
+export function optionalProfilePhoto(value: FormDataEntryValue | null): File | null {
+  // Browsers and multipart serializers can give an unselected input a filename.
+  // Only actual file contents opt into the optional upload workflow.
+  return value instanceof File && value.size > 0 ? value : null;
+}
+
 export function needsProfileNames(profile: Pick<Profile, "first_name" | "last_name">): boolean {
   return !profile.first_name?.trim() || !profile.last_name?.trim();
 }

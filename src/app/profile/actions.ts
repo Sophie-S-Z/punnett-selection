@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import sharp from "sharp";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { parseProfile, validateNames, validatePhoto } from "@/lib/punnett/profile";
+import { optionalProfilePhoto, parseProfile, validateNames, validatePhoto } from "@/lib/punnett/profile";
 
 export type ProfileFormState = {
   status: "idle" | "success" | "error";
@@ -31,8 +31,8 @@ export async function saveProfile(_previous: ProfileFormState, form: FormData): 
   let uploadedPath: string | null = null;
   let saveAttempted = false;
   try {
-    const photo = form.get("photo");
-    if (photo instanceof File && (photo.size > 0 || photo.name !== "")) {
+    const photo = optionalProfilePhoto(form.get("photo"));
+    if (photo) {
       const photoError = validatePhoto(photo);
       if (photoError) return fail(photoError);
       const buffer = Buffer.from(await photo.arrayBuffer());

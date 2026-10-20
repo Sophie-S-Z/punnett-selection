@@ -7,7 +7,6 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { toast } from "sonner";
 import { nextPair, selectSpecimen } from "@/app/selection/actions";
 import type { CaptionPair } from "@/lib/punnett/pairing";
-import { specimenCode } from "@/lib/punnett/specimenCode";
 import { AuthControls } from "./AuthControls";
 import { LabLoader } from "./LabLoader";
 
@@ -96,7 +95,7 @@ export function SelectionChamber({ signedIn, initialPair, initialError }: Select
           {(["left", "right"] as const).map((side, index) => {
             const caption = pair[side];
             return <motion.button type="button" key={caption.id} className="duel-card" disabled={!signedIn || pending} aria-pressed={winner === caption.id} aria-label={`Choose caption ${index === 0 ? "A" : "B"}: ${caption.text}`} onClick={() => void choose(side)} data-state={winner ? winner === caption.id ? "winner" : "loser" : "idle"}>
-              <span className="duel-card-meta"><span className="eyebrow">Caption {index === 0 ? "A" : "B"} · {specimenCode(caption.id)}</span><span className="duel-key" aria-hidden="true">{index === 0 ? "A" : "B"}</span></span>
+              <span className="duel-card-meta"><span className="eyebrow">Caption {index === 0 ? "A" : "B"}</span><span className="duel-key" aria-hidden="true">{index === 0 ? "A" : "B"}</span></span>
               <span className="duel-caption">{caption.text}</span><span className="duel-select-label">{winner === caption.id ? "Selected" : "Choose caption"}<span aria-hidden="true">↗</span></span>
             </motion.button>;
           })}

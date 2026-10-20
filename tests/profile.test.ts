@@ -1,6 +1,20 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { MAX_PHOTO_BYTES, needsProfileNames, parseProfile, validateNames, validatePhoto } from "../src/lib/punnett/profile.ts";
+import { MAX_PHOTO_BYTES, needsProfileNames, optionalProfilePhoto, parseProfile, validateNames, validatePhoto } from "../src/lib/punnett/profile.ts";
+
+test("optional photo skips absent and empty multipart files, including nonempty placeholder names", async () => {
+  assert.equal(optionalProfilePhoto(null), null);
+  assert.equal(optionalProfilePhoto(""), null);
+  for (const name of ["", "blob", "undefined", "photo.jpg"]) {
+    const form = new FormData();
+    form.set("photo", new File([], name, { type: "application/octet-stream" }));
+    const request = new Request("https://example.test/profile", { method: "POST", body: form });
+    assert.equal(optionalProfilePhoto((await request.formData()).get("photo")), null);
+  }
+  const chosen = new File(["real contents"], "photo.png", { type: "image/png" });
+  assert.equal(optionalProfilePhoto(chosen), chosen);
+  assert.equal(validatePhoto(chosen), null);
+});
 
 test("onboarding requires both names and rejects whitespace-only values", () => {
   for (const names of [{ first_name: null, last_name: "Zhang" }, { first_name: "Sophie", last_name: null }, { first_name: " ", last_name: "Zhang" }]) assert.equal(needsProfileNames(names), true);

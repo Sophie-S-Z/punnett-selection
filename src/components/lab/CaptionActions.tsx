@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
-export function CaptionActions({ text, imageId, code }: { text: string; imageId: string; code: string }) {
+export function CaptionActions({ text, imageId }: { text: string; imageId: string }) {
   const [pending, setPending] = useState(false);
   async function copy() {
     try { await navigator.clipboard.writeText(text); toast.success("Caption copied."); }
@@ -53,7 +53,7 @@ export function CaptionActions({ text, imageId, code }: { text: string; imageId:
       output = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = output;
-      link.download = `punnett-${code}.png`;
+      link.download = "punnett-meme.png";
       link.click();
       toast.success("Meme downloaded.");
     } catch { toast.error("Could not download the meme. Please try again."); }
