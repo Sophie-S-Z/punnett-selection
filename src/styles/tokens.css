@@ -1,25 +1,26 @@
 :root,
 [data-theme="night"] {
-  --bg: #171716;
-  --surface: #222220;
-  --surface-active: #33312d;
-  --border: #46433e;
-  --glow: #ff866f;
-  --glow-soft: #d9d3c7;
-  --glow-deep: #a34e3e;
-  --text: #f7f1e6;
-  --text-muted: #b1aa9e;
-  --ink: #ffc87c;
-  --mutant: #c6b8ee;
-  --mutant-deep: #69548f;
-  --danger: #ffaaaa;
-  --paper: #f1e9da;
-  --paper-ink: #282722;
-  --paper-muted: #655e53;
-  --paper-line: #b5ab99;
+  /* Shared with Observatory: aubergine, apricot, and periwinkle. */
+  --bg: #181522;
+  --surface: #242032;
+  --surface-active: #332c43;
+  --border: #625773;
+  --glow: #ffbe98;
+  --glow-soft: #d9cfe5;
+  --glow-deep: #945d44;
+  --text: #f4edf9;
+  --text-muted: #b9abc9;
+  --ink: #e7cb87;
+  --mutant: #b4c5ff;
+  --mutant-deep: #59668e;
+  --danger: #ffa9be;
+  --paper: #e8e4f3;
+  --paper-ink: #2d243d;
+  --paper-muted: #63566f;
+  --paper-line: #9f91ad;
   --radius: 12px;
   --radius-panel: 20px;
   --radius-control: 10px;
   --glass-edge: var(--border);
-  --surface-shadow: 0 20px 60px #00000026;
+  --surface-shadow: 0 20px 60px #10091f40;
 }
