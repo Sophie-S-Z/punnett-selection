@@ -8,6 +8,8 @@ import { buildGenerationPrompt, geminiRequest, MAX_IMAGE_BYTES, parseGeneratedCa
 import type { GenerationResult, GenerationStage } from "@/lib/punnett/generation";
 
 export async function generateSpecimens(formData: FormData): Promise<GenerationResult> {
+  const startedAt = Date.now();
+  let providerStatus: number | null = null;
   let stage: GenerationStage = "culturing";
   let generationId: string | null = null;
   let storagePath: string | null = null;
@@ -58,6 +60,7 @@ export async function generateSpecimens(formData: FormData): Promise<GenerationR
       method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
       body: JSON.stringify(geminiRequest(prompt, base64)), signal: AbortSignal.timeout(45_000), cache: "no-store",
     });
+    providerStatus = response.status;
     if (!response.ok) throw new Error(response.status === 429 ? "provider_quota" : "Generation request failed.");
     const captions = parseGeneratedCaptions(await response.json());
     stage = "hatching";
@@ -70,6 +73,10 @@ export async function generateSpecimens(formData: FormData): Promise<GenerationR
     revalidatePath("/lab/notebook/created");
     return { ok: true, imageId: completed.image_id, captions: completed.captions };
   } catch (cause) {
+    console.error("[punnett:generation-failed]", JSON.stringify({
+      generationId, stage, providerStatus, durationMs: Date.now() - startedAt,
+      reason: cause instanceof Error && cause.name === "TimeoutError" ? "timeout" : providerStatus === 429 ? "quota" : stage === "hatching" ? "persistence" : "provider_or_output",
+    }));
     if (generationId && client) {
       // Cleanup is best-effort. A network failure must still produce a recoverable UI.
       try { await client.rpc("punnett_fail_generation", { generation_id_input: generationId }); } catch { /* No secrets or provider output in logs. */ }
